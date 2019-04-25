@@ -771,6 +771,7 @@ function createVis(data) {
         streetViewControl: false,
         rotateControl: false,
         fullscreenControl: false,
+        styles: options
       });
     }
   }
