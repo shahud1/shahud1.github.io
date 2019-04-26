@@ -101,12 +101,6 @@ function createVis(data) {
     // filter mode
     filteredData = (typeof filter.mode === 'object') ? filteredData : filterMode(filteredData);
 
-    if (type !== 'borough') {
-      boroughVis.update(filteredData);
-    }
-
-    // lastly update data according to the selected borough
-    filteredData = (typeof filter.borough === 'object') ? filteredData : filteredData.filter(d => filter.borough === d.borough);
 
     ageVis.update(filteredData);
     modeVis.update(filteredData);
@@ -163,7 +157,6 @@ function createVis(data) {
   function resetFilter() {
     return {
       severity: ['Fatal', 'Severe'],
-      borough: boroughVis.londonBoroughs,
       age: ageVis.ageBands,
       mode: modeVis.modeTypes
     };
