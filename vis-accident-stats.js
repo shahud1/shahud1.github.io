@@ -18,9 +18,6 @@ function createVis(data) {
   // ["Driver", "Pedestrian", "Passenger"]
   var casualtyClassTypes = Array.from( new Set( [].concat.apply( [], data.map( d => d.casualties.map( c => c.class ) ) ) ) );
 
-  // borough - 33 unique values
-  // ["City of London", "City of Westminster", "Camden", "Islington", "Hackney", "Tower Hamlets", "Greenwich", "Lewisham", "Southwark", "Lambeth", "Wandsworth", "Hammersmith and Fulham", "Kensington and Chelsea", "Waltham Forest", "Redbridge", "Havering", "Barking and Dagenham", "Newham", "Bexley", "Bromley", "Croydon", "Sutton", "Merton", "Kingston", "Richmond upon Thames", "Hounslow", "Hillingdon", "Ealing", "Brent", "Harrow", "Barnet", "Haringey", "Enfield"]
-  var boroughTypes = Array.from( new Set( data.map( d => d.borough ) ) );
 
   // age - 98 unique values
   // range: [0, 98]; each number from 0 to 98 is represented
@@ -45,7 +42,6 @@ function createVis(data) {
   // as default show only first two sections
   var initialData = data.filter(d => d.severity === 'Fatal' || d.severity === 'Severe');
 
-  var boroughVis = createBoroughVis(initialData);
   var ageVis = createAgeVis(initialData);
   var modeVis = createModeVis(initialData);
   var severityVis = createSeverityVis(severityTypes);
