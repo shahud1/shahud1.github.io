@@ -7,8 +7,8 @@
 1. Vars and Inits
 2. Set Header
 3. Init Menu
-4. InitDeptSlider
-5. Init Accordions
+4. Init Home Slider
+5. Init SVG
 
 
 ******************************/
@@ -24,7 +24,8 @@ $(document).ready(function()
 	*/
 
 	var header = $('.header');
-	var menu = $('.menu');
+	var hamb = $('.hamburger');
+	var hambActive = false;
 	var menuActive = false;
 
 	setHeader();
@@ -32,11 +33,6 @@ $(document).ready(function()
 	$(window).on('resize', function()
 	{
 		setHeader();
-
-		setTimeout(function()
-		{
-			$(window).trigger('resize.px.parallax');
-		}, 375);
 	});
 
 	$(document).on('scroll', function()
@@ -45,8 +41,8 @@ $(document).ready(function()
 	});
 
 	initMenu();
-	initDeptSlider();
-	initAccordions();
+	initHomeSlider();
+	initSvg();
 
 	/* 
 
@@ -56,7 +52,7 @@ $(document).ready(function()
 
 	function setHeader()
 	{
-		if($(window).scrollTop() > 91)
+		if($(window).scrollTop() > 100)
 		{
 			header.addClass('scrolled');
 		}
@@ -74,157 +70,135 @@ $(document).ready(function()
 
 	function initMenu()
 	{
-		if($('.hamburger').length && $('.menu').length)
+		if($('.hamburger').length)
 		{
 			var hamb = $('.hamburger');
-			var close = $('.menu_close_container');
 
-			hamb.on('click', function()
+			hamb.on('click', function(event)
 			{
+				event.stopPropagation();
+
 				if(!menuActive)
 				{
 					openMenu();
+					
+					$(document).one('click', function cls(e)
+					{
+						if($(e.target).hasClass('menu_mm'))
+						{
+							$(document).one('click', cls);
+						}
+						else
+						{
+							closeMenu();
+						}
+					});
 				}
 				else
 				{
-					closeMenu();
+					$('.menu_container').removeClass('active');
+					menuActive = false;
 				}
 			});
-
-			close.on('click', function()
-			{
-				if(!menuActive)
-				{
-					openMenu();
-				}
-				else
-				{
-					closeMenu();
-				}
-			});
-
-	
 		}
 	}
 
 	function openMenu()
 	{
-		menu.addClass('active');
+		var fs = $('.menu_container');
+		fs.addClass('active');
+		hambActive = true;
 		menuActive = true;
 	}
 
 	function closeMenu()
 	{
-		menu.removeClass('active');
+		var fs = $('.menu_container');
+		fs.removeClass('active');
+		hambActive = false;
 		menuActive = false;
 	}
 
 	/* 
 
-	4. Init Dept Slider
+	2. Init Home Slider
 
 	*/
 
-	function initDeptSlider()
+	function initHomeSlider()
 	{
-		if($('.dept_slider').length)
+		if($('.home_slider').length)
 		{
-			var deptSlider = $('.dept_slider');
-			deptSlider.owlCarousel(
+			var homeSlider = $('.home_slider');
+			homeSlider.owlCarousel(
 			{
-				items:4,
-				autoplay:true,
+				items:1,
 				loop:true,
+				autoplay:false,
+				autoplayTimeout:10000,
 				nav:false,
 				dots:false,
-				margin:30,
 				smartSpeed:1200,
-				responsive:
-				{
-					0:{items:1},
-					768:{items:2},
-					992:{items:3},
-					1200:{items:4}
-				}
+				onInitialized:startProgressBar,
+				onTranslate:resetProgressBar,
+				onTranslated:startProgressBar
 			});
 
-			if($('.dept_slider_nav').length)
+			function startProgressBar()
 			{
-				var next = $('.dept_slider_nav');
-				next.on('click', function()
+				if($('.home_slider_progress').length)
 				{
-					deptSlider.trigger('next.owl.carousel');
-				});
+					$('.home_slider_progress').css({width:"100%", transition:"width 8500ms"});
+				}
 			}
+
+			function resetProgressBar()
+			{
+				if($('.home_slider_progress').length)
+				{
+					$('.home_slider_progress').css({width:"0", transition:"width 0s"});
+				}
+			}
+			
 		}
 	}
 
 	/* 
 
-	5. Init Accordions
+	6. Init SVG
 
 	*/
 
-	function initAccordions()
+	function initSvg()
 	{
-		if($('.accordion').length)
+		jQuery('img.svg').each(function()
 		{
-			var accs = $('.accordion');
+			var $img = jQuery(this);
+			var imgID = $img.attr('id');
+			var imgClass = $img.attr('class');
+			var imgURL = $img.attr('src');
 
-			accs.each(function()
+			jQuery.get(imgURL, function(data)
 			{
-				var acc = $(this);
+				// Get the SVG tag, ignore the rest
+				var $svg = jQuery(data).find('svg');
 
-				if(acc.hasClass('active'))
-				{
-					var panel = $(acc.next());
-					var panelH = panel.prop('scrollHeight') + "px";
-					
-					if(panel.css('max-height') == "0px")
-					{
-						panel.css('max-height', panel.prop('scrollHeight') + "px");
-					}
-					else
-					{
-						panel.css('max-height', "0px");
-					} 
+				// Add replaced image's ID to the new SVG
+				if(typeof imgID !== 'undefined') {
+				$svg = $svg.attr('id', imgID);
+				}
+				// Add replaced image's classes to the new SVG
+				if(typeof imgClass !== 'undefined') {
+				$svg = $svg.attr('class', imgClass+' replaced-svg');
 				}
 
-				acc.on('click', function()
-				{
-					if(acc.hasClass('active'))
-					{
-						acc.removeClass('active');
-						var panel = $(acc.next());
-						var panelH = panel.prop('scrollHeight') + "px";
-						
-						if(panel.css('max-height') == "0px")
-						{
-							panel.css('max-height', panel.prop('scrollHeight') + "px");
-						}
-						else
-						{
-							panel.css('max-height', "0px");
-						} 
-					}
-					else
-					{
-						acc.addClass('active');
-						var panel = $(acc.next());
-						var panelH = panel.prop('scrollHeight') + "px";
-						
-						if(panel.css('max-height') == "0px")
-						{
-							panel.css('max-height', panel.prop('scrollHeight') + "px");
-						}
-						else
-						{
-							panel.css('max-height', "0px");
-						} 
-					}
-				});
-			});
-		}
+				// Remove any invalid XML tags as per http://validator.w3.org
+				$svg = $svg.removeAttr('xmlns:a');
+
+				// Replace image with new SVG
+				$img.replaceWith($svg);
+			}, 'xml');
+		});
 	}
 
 });

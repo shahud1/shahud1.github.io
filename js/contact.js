@@ -23,7 +23,8 @@ $(document).ready(function()
 	*/
 
 	var header = $('.header');
-	var menu = $('.menu');
+	var hamb = $('.hamburger');
+	var hambActive = false;
 	var menuActive = false;
 	var map;
 
@@ -32,11 +33,6 @@ $(document).ready(function()
 	$(window).on('resize', function()
 	{
 		setHeader();
-
-		setTimeout(function()
-		{
-			$(window).trigger('resize.px.parallax');
-		}, 375);
 	});
 
 	$(document).on('scroll', function()
@@ -55,7 +51,7 @@ $(document).ready(function()
 
 	function setHeader()
 	{
-		if($(window).scrollTop() > 91)
+		if($(window).scrollTop() > 100)
 		{
 			header.addClass('scrolled');
 		}
@@ -73,48 +69,52 @@ $(document).ready(function()
 
 	function initMenu()
 	{
-		if($('.hamburger').length && $('.menu').length)
+		if($('.hamburger').length)
 		{
 			var hamb = $('.hamburger');
-			var close = $('.menu_close_container');
 
-			hamb.on('click', function()
+			hamb.on('click', function(event)
 			{
+				event.stopPropagation();
+
 				if(!menuActive)
 				{
 					openMenu();
+					
+					$(document).one('click', function cls(e)
+					{
+						if($(e.target).hasClass('menu_mm'))
+						{
+							$(document).one('click', cls);
+						}
+						else
+						{
+							closeMenu();
+						}
+					});
 				}
 				else
 				{
-					closeMenu();
+					$('.menu_container').removeClass('active');
+					menuActive = false;
 				}
 			});
-
-			close.on('click', function()
-			{
-				if(!menuActive)
-				{
-					openMenu();
-				}
-				else
-				{
-					closeMenu();
-				}
-			});
-
-	
 		}
 	}
 
 	function openMenu()
 	{
-		menu.addClass('active');
+		var fs = $('.menu_container');
+		fs.addClass('active');
+		hambActive = true;
 		menuActive = true;
 	}
 
 	function closeMenu()
 	{
-		menu.removeClass('active');
+		var fs = $('.menu_container');
+		fs.removeClass('active');
+		hambActive = false;
 		menuActive = false;
 	}
 
@@ -126,11 +126,11 @@ $(document).ready(function()
 
 	function initGoogleMap()
 	{
-		var myLatlng = new google.maps.LatLng(34.063685,-118.272936);
+		var myLatlng = new google.maps.LatLng(34.043238,-118.258338);
     	var mapOptions = 
     	{
     		center: myLatlng,
-	       	zoom: 14,
+	       	zoom: 13,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			draggable: true,
 			scrollwheel: false,
@@ -147,11 +147,101 @@ $(document).ready(function()
 			styles:
 			[
 			  {
+			    "featureType": "landscape",
+			    "elementType": "geometry.fill",
+			    "stylers": [
+			      {
+			        "color": "#e9e5dc"
+			      }
+			    ]
+			  },
+			  {
+			    "featureType": "poi",
+			    "elementType": "labels",
+			    "stylers": [
+			      {
+			        "visibility": "off"
+			      }
+			    ]
+			  },
+			  {
+			    "featureType": "road",
+			    "elementType": "labels.icon",
+			    "stylers": [
+			      {
+			        "visibility": "off"
+			      }
+			    ]
+			  },
+			  {
+			    "featureType": "road.arterial",
+			    "elementType": "geometry",
+			    "stylers": [
+			      {
+			        "weight": 1.5
+			      }
+			    ]
+			  },
+			  {
+			    "featureType": "road.arterial",
+			    "elementType": "geometry.fill",
+			    "stylers": [
+			      {
+			        "weight": 1
+			      }
+			    ]
+			  },
+			  {
 			    "featureType": "road.highway",
 			    "elementType": "geometry.fill",
 			    "stylers": [
 			      {
-			        "color": "#ffeba1"
+			        "color": "#fa9e25"
+			      }
+			    ]
+			  },
+			  {
+			    "featureType": "road.highway",
+			    "elementType": "geometry.stroke",
+			    "stylers": [
+			      {
+			        "color": "#e49307"
+			      }
+			    ]
+			  },
+			  {
+			    "featureType": "road.highway",
+			    "elementType": "labels",
+			    "stylers": [
+			      {
+			        "visibility": "off"
+			      }
+			    ]
+			  },
+			  {
+			    "featureType": "road.local",
+			    "elementType": "geometry",
+			    "stylers": [
+			      {
+			        "weight": 0.5
+			      }
+			    ]
+			  },
+			  {
+			    "featureType": "road.local",
+			    "elementType": "geometry.fill",
+			    "stylers": [
+			      {
+			        "color": "#d9d4ca"
+			      }
+			    ]
+			  },
+			  {
+			    "featureType": "transit",
+			    "elementType": "labels",
+			    "stylers": [
+			      {
+			        "visibility": "off"
 			      }
 			    ]
 			  }
@@ -160,6 +250,7 @@ $(document).ready(function()
 
     	// Initialize a map with options
     	map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    	map.panBy(0, 0);
 
 		// Re-center map after window resize
 		google.maps.event.addDomListener(window, 'resize', function()
@@ -168,6 +259,15 @@ $(document).ready(function()
 			{
 				google.maps.event.trigger(map, "resize");
 				map.setCenter(myLatlng);
+				map.panBy(75, 0);
+				if($(window).width() < 720)
+		    	{
+		    		
+		    	}
+		    	else
+		    	{
+		    		map.panBy(75, 0);
+		    	}
 			}, 1400);
 		});
 	}

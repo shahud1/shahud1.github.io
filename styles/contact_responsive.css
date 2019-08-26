@@ -63,22 +63,7 @@
 
 @media only screen and (max-width: 1199px)
 {
-	.search_container_form
-	{
-		width: 217px;
-	}
-	.footer_contact_form div input
-	{
-		width: 100%;
-	}
-	.footer_nav ul li:not(:last-child)
-	{
-		margin-right: 40px;
-	}
-	.footer_links
-	{
-		margin-left: 54px;
-	}
+	
 }
 
 /************
@@ -105,77 +90,95 @@
 
 @media only screen and (max-width: 991px)
 {
-	.home_title
+	.main_nav
 	{
-		font-size: 48px;
+		display: none;
 	}
-	.header,
-	.header.scrolled
+	.logo_container
 	{
-		position: fixed;
-		top: 0px;
-		left: 0;
+		width: 181px;
 	}
-	.header_top_extra,
-	.header_nav
+	.logo_content
 	{
-		display: none !important;
+		padding-left: 28px;
+	}
+	.logo_text
+	{
+		font-size: 24px;
+	}
+	.logo_sub
+	{
+		font-size: 12px;
+		font-weight: 400;
+	}
+	.top_bar_content
+	{
+		padding-left: 166px;
+	}
+	.top_bar_item
+	{
+		margin-left: 27px;
+	}
+	.top_bar_item a
+	{
+		font-size: 12px;
+	}
+	.emergencies
+	{
+		font-size: 12px;
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+	.logo_box
+	{
+		width: 18px;
+		height: 18px;
+		line-height: 18px;
+		font-size: 18px;
+		-webkit-transform: translateY(-1px);
+		-moz-transform: translateY(-1px);
+		-ms-transform: translateY(-1px);
+		-o-transform: translateY(-1px);
+		transform: translateY(-1px);
 	}
 	.hamburger
 	{
 		display: block;
 	}
-	.contact_col:not(:last-child)
+	.input_name
 	{
-		margin-bottom: 60px;
+		margin-bottom: 28px;
 	}
-	.contact_info
+	.form_col
 	{
-		position: relative;
-		left: 15px;
-		top: auto;
-		width: calc(100% - 30px);
-		padding-left: 40px;
+		margin-top: 95px;
+	}
+	.box
+	{
+		width: 322px;
+		height: auto;
+		padding-bottom: 40px;
+		padding-left: 30px;
+	}
+	.working_hours
+	{
 		padding-right: 40px;
 	}
-	.contact_info_list_2
+	.footer_column
 	{
-		padding-top: 0;
+		padding-top: 75px;
 	}
-	.contact_map
-	{
-		margin-top: 65px;
-		height: 650px;
-	}
-	.footer_col:not(:last-child)
-	{
-		margin-bottom: 100px;
-	}
-	.footer_contact
-	{
-		padding-top: 0;
-	}
-	.footer_bar_content
+	.copyright_content
 	{
 		height: auto;
 		padding-top: 30px;
 		padding-bottom: 30px;
 	}
-	.footer_nav ul li:not(:last-child)
+	.footer_social ul
 	{
-		margin-bottom: 8px;
-	}
-	.footer_links ul li:not(:last-child)::after
-	{
-		display: none;
-	}
-	.footer_phone
-	{
-		margin-left: 80px;
-	}
-	.footer_links ul li:not(:last-child)
-	{
-		margin-bottom: 7px;
+		margin-right: 0;
+		margin-left: -5px;
+		margin-top: 15px;
 	}
 }
 
@@ -212,7 +215,34 @@
 
 @media only screen and (max-width: 767px)
 {
-	
+	.top_bar
+	{
+		display: none;
+	}
+	.logo_container
+	{
+		height: 127px;
+	}
+	.logo
+	{
+		margin-top: 9px;
+	}
+	.box
+	{
+		width: 100%;
+	}
+	.working_hours
+	{
+		position: relative;
+		top: auto;
+		-webkit-transform: none;
+		-moz-transform: none;
+		-ms-transform: none;
+		-o-transform: none;
+		transform: none;
+		left: auto;
+		margin-top: 95px;
+	}
 }
 
 /************
@@ -225,49 +255,112 @@
 	{
 		font-size: 13px;
 	}
+	.header.scrolled
+	{
+		top: 0px !important;
+	}
+	.header_content,
+	.header.scrolled .header_content
+	{
+		height: 60px;
+	}
+	.header.scrolled .logo_container
+	{
+		top: 0;
+	}
+	.header.scrolled .logo_container
+	{
+		height: 77px;
+	}
+	.hamburger i
+	{
+		font-size: 20px;
+	}
+	.logo_container
+	{
+		width: 141px;
+		height: 77px;
+	}
+	.logo_content
+	{
+		padding-left: 20px;
+	}
+	.logo_text
+	{
+		font-size: 16px;
+	}
+	.logo_box
+	{
+		width: 12px;
+		height: 12px;
+		line-height: 12px;
+		font-size: 12px;
+	}
+	.logo_sub
+	{
+		font-size: 10px;
+		padding-left: 1px;
+	}
+	.menu
+	{
+		top: 90px;
+	}
 	.menu_close_container
 	{
-		top: 31px;
-		right: 28px;
+		top: 20px;
+		right: 20px;
+	}
+	.menu_container
+	{
+		width: 100vw;
+		right: -100vw;
 	}
 	.menu_item a
 	{
-		font-size: 28px;
-	}
-	.button
-	{
-		height: 40px;
-	}
-	.button a span
-	{
-		font-size: 10px;
-	}
-	.section_title
-	{
-		font-size: 28px;
-		max-width: 100%;
+		font-size: 20px;
 	}
 	.home
 	{
-		height: 320px;
+		height: 230px;
+	}
+	.home_container
+	{
+		bottom: 47px;
 	}
 	.home_title
 	{
-		font-size: 28px;
+		font-size: 24px;
 	}
-	.footer_about_text
+	.breadcrumbs ul li, .breadcrumbs ul li a
 	{
-		font-size: 13px;
+		font-size: 12px;
 	}
-	.footer_links
+	.section_title h2
 	{
-		margin-left: 0;
-		margin-top: 40px;
+		font-size: 24px;
 	}
-	.footer_phone
+	.button
 	{
-		margin-left: 0;
-		margin-top: 40px;
+		height: 41px;
+	}
+	.button a
+	{
+		font-size: 11px;
+		line-height: 41px;
+		padding-left: 29px;
+		padding-right: 34px;
+	}
+	.box
+	{
+		padding-left: 25px;
+	}
+	.working_hours
+	{
+		padding-right: 30px;
+	}
+	.google_map
+	{
+		height: 350px;
 	}
 }
 

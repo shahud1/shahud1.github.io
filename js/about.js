@@ -7,7 +7,7 @@
 1. Vars and Inits
 2. Set Header
 3. Init Menu
-4. Init Milestones
+4. Init Loaders
 
 
 ******************************/
@@ -23,7 +23,8 @@ $(document).ready(function()
 	*/
 
 	var header = $('.header');
-	var menu = $('.menu');
+	var hamb = $('.hamburger');
+	var hambActive = false;
 	var menuActive = false;
 	var ctrl = new ScrollMagic.Controller();
 
@@ -32,11 +33,6 @@ $(document).ready(function()
 	$(window).on('resize', function()
 	{
 		setHeader();
-
-		setTimeout(function()
-		{
-			$(window).trigger('resize.px.parallax');
-		}, 375);
 	});
 
 	$(document).on('scroll', function()
@@ -45,7 +41,7 @@ $(document).ready(function()
 	});
 
 	initMenu();
-	initMilestones();
+	initLoaders();
 
 	/* 
 
@@ -55,7 +51,7 @@ $(document).ready(function()
 
 	function setHeader()
 	{
-		if($(window).scrollTop() > 91)
+		if($(window).scrollTop() > 100)
 		{
 			header.addClass('scrolled');
 		}
@@ -73,105 +69,122 @@ $(document).ready(function()
 
 	function initMenu()
 	{
-		if($('.hamburger').length && $('.menu').length)
+		if($('.hamburger').length)
 		{
 			var hamb = $('.hamburger');
-			var close = $('.menu_close_container');
 
-			hamb.on('click', function()
+			hamb.on('click', function(event)
 			{
+				event.stopPropagation();
+
 				if(!menuActive)
 				{
 					openMenu();
+					
+					$(document).one('click', function cls(e)
+					{
+						if($(e.target).hasClass('menu_mm'))
+						{
+							$(document).one('click', cls);
+						}
+						else
+						{
+							closeMenu();
+						}
+					});
 				}
 				else
 				{
-					closeMenu();
+					$('.menu_container').removeClass('active');
+					menuActive = false;
 				}
 			});
-
-			close.on('click', function()
-			{
-				if(!menuActive)
-				{
-					openMenu();
-				}
-				else
-				{
-					closeMenu();
-				}
-			});
-
-	
 		}
 	}
 
 	function openMenu()
 	{
-		menu.addClass('active');
+		var fs = $('.menu_container');
+		fs.addClass('active');
+		hambActive = true;
 		menuActive = true;
 	}
 
 	function closeMenu()
 	{
-		menu.removeClass('active');
+		var fs = $('.menu_container');
+		fs.removeClass('active');
+		hambActive = false;
 		menuActive = false;
 	}
 
 	/* 
 
-	4. Initialize Milestones
+	8. Init Loaders
 
 	*/
 
-	function initMilestones()
+	function initLoaders()
 	{
-		if($('.milestone_counter').length)
+		if($('.loader').length)
 		{
-			var milestoneItems = $('.milestone_counter');
+			var loaders = $('.loader');
 
-	    	milestoneItems.each(function(i)
-	    	{
-	    		var ele = $(this);
-	    		var endValue = ele.data('end-value');
-	    		var eleValue = ele.text();
+			loaders.each(function()
+			{
+				var loader = this;
+				var endValue = $(loader).data('perc');
 
-	    		/* Use data-sign-before and data-sign-after to add signs
-	    		infront or behind the counter number */
-	    		var signBefore = "";
-	    		var signAfter = "";
-
-	    		if(ele.attr('data-sign-before'))
-	    		{
-	    			signBefore = ele.attr('data-sign-before');
-	    		}
-
-	    		if(ele.attr('data-sign-after'))
-	    		{
-	    			signAfter = ele.attr('data-sign-after');
-	    		}
-
-	    		var milestoneScene = new ScrollMagic.Scene({
+				var loaderScene = new ScrollMagic.Scene({
 		    		triggerElement: this,
 		    		triggerHook: 'onEnter',
 		    		reverse:false
 		    	})
 		    	.on('start', function()
 		    	{
-		    		var counter = {value:eleValue};
-		    		var counterTween = TweenMax.to(counter, 4,
-		    		{
-		    			value: endValue,
-		    			roundProps:"value", 
-						ease: Circ.easeOut, 
-						onUpdate:function()
+		    		var bar = new ProgressBar.Circle(loader,
+					{
+						color: '#20d34a',
+						// This has to be the same size as the maximum width to
+						// prevent clipping
+						strokeWidth: 3,
+						trailWidth: 0,
+						trailColor: 'transparent',
+						easing: 'easeInOut',
+						duration: 1400,
+						text:
 						{
-							document.getElementsByClassName('milestone_counter')[i].innerHTML = signBefore + counter.value + signAfter;
+							autoStyleContainer: false
+						},
+						from:{ color: '#20d34a', width: 3 },
+						to: { color: '#20d34a', width: 3 },
+						// Set default step function for all animate calls
+						step: function(state, circle)
+						{
+							circle.path.setAttribute('stroke', state.color);
+							circle.path.setAttribute('stroke-width', state.width);
+
+							var value = Math.round(circle.value() * 100);
+							if (value === 0)
+							{
+								circle.setText('0%');
+							}
+							else
+							{
+								circle.setText(value + "%");
+							}
 						}
-		    		});
+					});
+					bar.text.style.fontFamily = '"Roboto", sans-serif';
+					bar.text.style.fontSize = '30px';
+					bar.text.style.fontWeight = '500';
+					bar.text.style.color = "#232323";
+
+
+					bar.animate(endValue);  // Number from 0.0 to 1.0
 		    	})
 			    .addTo(ctrl);
-	    	});
+			});
 		}
 	}
 

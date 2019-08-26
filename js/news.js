@@ -22,20 +22,15 @@ $(document).ready(function()
 	*/
 
 	var header = $('.header');
-	var menu = $('.menu');
+	var hamb = $('.hamburger');
+	var hambActive = false;
 	var menuActive = false;
-	var ctrl = new ScrollMagic.Controller();
 
 	setHeader();
 
 	$(window).on('resize', function()
 	{
 		setHeader();
-
-		setTimeout(function()
-		{
-			$(window).trigger('resize.px.parallax');
-		}, 375);
 	});
 
 	$(document).on('scroll', function()
@@ -53,7 +48,7 @@ $(document).ready(function()
 
 	function setHeader()
 	{
-		if($(window).scrollTop() > 91)
+		if($(window).scrollTop() > 100)
 		{
 			header.addClass('scrolled');
 		}
@@ -71,48 +66,52 @@ $(document).ready(function()
 
 	function initMenu()
 	{
-		if($('.hamburger').length && $('.menu').length)
+		if($('.hamburger').length)
 		{
 			var hamb = $('.hamburger');
-			var close = $('.menu_close_container');
 
-			hamb.on('click', function()
+			hamb.on('click', function(event)
 			{
+				event.stopPropagation();
+
 				if(!menuActive)
 				{
 					openMenu();
+					
+					$(document).one('click', function cls(e)
+					{
+						if($(e.target).hasClass('menu_mm'))
+						{
+							$(document).one('click', cls);
+						}
+						else
+						{
+							closeMenu();
+						}
+					});
 				}
 				else
 				{
-					closeMenu();
+					$('.menu_container').removeClass('active');
+					menuActive = false;
 				}
 			});
-
-			close.on('click', function()
-			{
-				if(!menuActive)
-				{
-					openMenu();
-				}
-				else
-				{
-					closeMenu();
-				}
-			});
-
-	
 		}
 	}
 
 	function openMenu()
 	{
-		menu.addClass('active');
+		var fs = $('.menu_container');
+		fs.addClass('active');
+		hambActive = true;
 		menuActive = true;
 	}
 
 	function closeMenu()
 	{
-		menu.removeClass('active');
+		var fs = $('.menu_container');
+		fs.removeClass('active');
+		hambActive = false;
 		menuActive = false;
 	}
 

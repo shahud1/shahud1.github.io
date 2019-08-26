@@ -27,7 +27,7 @@
 
 @media only screen and (max-width: 1600px)
 {
-
+	
 }
 
 /************
@@ -36,7 +36,7 @@
 
 @media only screen and (max-width: 1440px)
 {
-
+	
 }
 
 /************
@@ -45,7 +45,7 @@
 
 @media only screen and (max-width: 1380px)
 {
-
+	
 }
 
 /************
@@ -54,7 +54,7 @@
 
 @media only screen and (max-width: 1280px)
 {
-
+	
 }
 
 /************
@@ -63,29 +63,13 @@
 
 @media only screen and (max-width: 1199px)
 {
-	.search_container_form
+	.box
 	{
-		width: 217px;
+		height: 313px;
 	}
-	.info_form
+	.box_phone
 	{
-		margin-top: 29px;
-	}
-	.cta_button
-	{
-		margin-top: 30px;
-	}
-	.footer_contact_form div input
-	{
-		width: 100%;
-	}
-	.footer_nav ul li:not(:last-child)
-	{
-		margin-right: 40px;
-	}
-	.footer_links
-	{
-		margin-left: 54px;
+		font-size: 24px;
 	}
 }
 
@@ -95,7 +79,7 @@
 
 @media only screen and (max-width: 1100px)
 {
-
+	
 }
 
 /************
@@ -104,7 +88,7 @@
 
 @media only screen and (max-width: 1024px)
 {
-
+	
 }
 
 /************
@@ -113,67 +97,105 @@
 
 @media only screen and (max-width: 991px)
 {
-	.home_title
+	.main_nav
 	{
-		font-size: 48px;
+		display: none;
 	}
-	.header,
-	.header.scrolled
+	.logo_container
 	{
-		position: fixed;
-		top: 0px;
-		left: 0;
+		width: 181px;
 	}
-	.header_top_extra,
-	.header_nav
+	.logo_content
 	{
-		display: none !important;
+		padding-left: 28px;
+	}
+	.logo_text
+	{
+		font-size: 24px;
+	}
+	.logo_sub
+	{
+		font-size: 12px;
+		font-weight: 400;
+	}
+	.top_bar_content
+	{
+		padding-left: 166px;
+	}
+	.top_bar_item
+	{
+		margin-left: 27px;
+	}
+	.top_bar_item a
+	{
+		font-size: 12px;
+	}
+	.emergencies
+	{
+		font-size: 12px;
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+	.logo_box
+	{
+		width: 18px;
+		height: 18px;
+		line-height: 18px;
+		font-size: 18px;
+		-webkit-transform: translateY(-1px);
+		-moz-transform: translateY(-1px);
+		-ms-transform: translateY(-1px);
+		-o-transform: translateY(-1px);
+		transform: translateY(-1px);
 	}
 	.hamburger
 	{
 		display: block;
 	}
-	.info_form_container
+	.home_title h1
 	{
-		padding-bottom: 44px;
+		font-size: 56px;
 	}
-	.info_box_col:not(:last-child)
+	.boxes
 	{
-		margin-bottom: 40px;
+		padding-top: 95px;
 	}
-	.news
+	.box_col
 	{
-		margin-top: 100px;
+		margin-top: 0;
 	}
-	.footer_col:not(:last-child)
+	.box_col:not(:last-child)
 	{
-		margin-bottom: 100px;
+		margin-bottom: 30px;
 	}
-	.footer_contact
+	.box
 	{
-		padding-top: 0;
+		height: auto;
+		padding-bottom: 40px;
 	}
-	.footer_bar_content
+	.about_image
+	{
+		position: relative;
+		right: auto;
+		bottom: auto;
+		text-align: center;
+		margin-top: 55px;
+	}
+	.footer_column
+	{
+		padding-top: 75px;
+	}
+	.copyright_content
 	{
 		height: auto;
 		padding-top: 30px;
 		padding-bottom: 30px;
 	}
-	.footer_nav ul li:not(:last-child)
+	.footer_social ul
 	{
-		margin-bottom: 8px;
-	}
-	.footer_links ul li:not(:last-child)::after
-	{
-		display: none;
-	}
-	.footer_phone
-	{
-		margin-left: 80px;
-	}
-	.footer_links ul li:not(:last-child)
-	{
-		margin-bottom: 7px;
+		margin-right: 0;
+		margin-left: -5px;
+		margin-top: 15px;
 	}
 }
 
@@ -183,7 +205,7 @@
 
 @media only screen and (max-width: 959px)
 {
-
+	
 }
 
 /************
@@ -192,7 +214,7 @@
 
 @media only screen and (max-width: 880px)
 {
-
+	
 }
 
 /************
@@ -201,7 +223,7 @@
 
 @media only screen and (max-width: 768px)
 {
-
+	
 }
 
 /************
@@ -210,9 +232,34 @@
 
 @media only screen and (max-width: 767px)
 {
-	.dept_slider_nav
+	.top_bar
 	{
 		display: none;
+	}
+	.logo_container
+	{
+		height: 127px;
+	}
+	.logo
+	{
+		margin-top: 9px;
+	}
+	.home_content_inner
+	{
+		width: 100%;
+	}
+	.dept_text
+	{
+		margin-top: 15px;
+	}
+	.dept_button
+	{
+		position: relative;
+		margin-top: 20px;
+	}
+	.cta_content h2
+	{
+		font-size: 36px;
 	}
 }
 
@@ -226,67 +273,117 @@
 	{
 		font-size: 13px;
 	}
-	.menu_close_container
+	.header.scrolled
 	{
-		top: 31px;
-		right: 28px;
+		top: 0px !important;
 	}
-	.menu_item a
+	.header_content,
+	.header.scrolled .header_content
 	{
-		font-size: 28px;
+		height: 60px;
 	}
-	.button
+	.header.scrolled .logo_container
 	{
-		height: 40px;
+		top: 0;
 	}
-	.button a span
+	.header.scrolled .logo_container
+	{
+		height: 77px;
+	}
+	.hamburger i
+	{
+		font-size: 20px;
+	}
+	.logo_container
+	{
+		width: 141px;
+		height: 77px;
+	}
+	.logo_content
+	{
+		padding-left: 20px;
+	}
+	.logo_text
+	{
+		font-size: 16px;
+	}
+	.logo_box
+	{
+		width: 12px;
+		height: 12px;
+		line-height: 12px;
+		font-size: 12px;
+	}
+	.logo_sub
 	{
 		font-size: 10px;
+		padding-left: 1px;
 	}
-	.section_title
+	.menu
 	{
-		font-size: 28px;
-		max-width: 100%;
+		top: 90px;
 	}
-	.home_title
+	.menu_close_container
+	{
+		top: 20px;
+		right: 20px;
+	}
+	.home
+	{
+		height: 100vh;
+	}
+	.home_content
+	{
+		top: calc(50% + 34px);
+		-webkit-transform: translateY(-50%);
+		-moz-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
+		-o-transform: translateY(-50%);
+		transform: translateY(-50%);
+	}
+	.home_title h1
 	{
 		font-size: 36px;
 	}
-	.home_text
-	{
-		font-size: 14px;
-		max-width: 100%;
-	}
-	.info_text
+	.home_text p
 	{
 		font-size: 13px;
 	}
-	.cta_title
+	.menu_container
+	{
+		width: 100vw;
+		right: -100vw;
+	}
+	.menu_item a
+	{
+		font-size: 20px;
+	}
+	.section_title h2
 	{
 		font-size: 24px;
 	}
-	.cta_subtitle
+	.button
 	{
-		font-size: 13px;
+		height: 41px;
 	}
-	.faq_title,
-	.news_title
+	.button a
+	{
+		font-size: 11px;
+		line-height: 41px;
+		padding-left: 29px;
+		padding-right: 34px;
+	}
+	.box
+	{
+		padding-left: 25px;
+	}
+	.working_hours
+	{
+		padding-right: 30px;
+	}
+	.cta_content h2
 	{
 		font-size: 28px;
-	}
-	.footer_about_text
-	{
-		font-size: 13px;
-	}
-	.footer_links
-	{
-		margin-left: 0;
-		margin-top: 40px;
-	}
-	.footer_phone
-	{
-		margin-left: 0;
-		margin-top: 40px;
 	}
 }
 
@@ -296,7 +393,7 @@
 
 @media only screen and (max-width: 539px)
 {
-
+	
 }
 
 /************
@@ -305,10 +402,7 @@
 
 @media only screen and (max-width: 480px)
 {
-	.home_title
-	{
-		font-size: 24px;
-	}
+	
 }
 
 /************
@@ -317,7 +411,10 @@
 
 @media only screen and (max-width: 479px)
 {
-
+	.home_title h1
+	{
+		font-size: 28px;
+	}
 }
 
 /************
@@ -326,5 +423,5 @@
 
 @media only screen and (max-width: 400px)
 {
-
+	
 }

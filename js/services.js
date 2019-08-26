@@ -7,7 +7,7 @@
 1. Vars and Inits
 2. Set Header
 3. Init Menu
-4. Init Tabs
+4. Init SVG
 
 
 ******************************/
@@ -23,20 +23,15 @@ $(document).ready(function()
 	*/
 
 	var header = $('.header');
-	var menu = $('.menu');
+	var hamb = $('.hamburger');
+	var hambActive = false;
 	var menuActive = false;
-	var ctrl = new ScrollMagic.Controller();
 
 	setHeader();
 
 	$(window).on('resize', function()
 	{
 		setHeader();
-
-		setTimeout(function()
-		{
-			$(window).trigger('resize.px.parallax');
-		}, 375);
 	});
 
 	$(document).on('scroll', function()
@@ -45,7 +40,7 @@ $(document).ready(function()
 	});
 
 	initMenu();
-	initTabs();
+	initSvg();
 
 	/* 
 
@@ -55,7 +50,7 @@ $(document).ready(function()
 
 	function setHeader()
 	{
-		if($(window).scrollTop() > 91)
+		if($(window).scrollTop() > 100)
 		{
 			header.addClass('scrolled');
 		}
@@ -73,77 +68,91 @@ $(document).ready(function()
 
 	function initMenu()
 	{
-		if($('.hamburger').length && $('.menu').length)
+		if($('.hamburger').length)
 		{
 			var hamb = $('.hamburger');
-			var close = $('.menu_close_container');
 
-			hamb.on('click', function()
+			hamb.on('click', function(event)
 			{
+				event.stopPropagation();
+
 				if(!menuActive)
 				{
 					openMenu();
+					
+					$(document).one('click', function cls(e)
+					{
+						if($(e.target).hasClass('menu_mm'))
+						{
+							$(document).one('click', cls);
+						}
+						else
+						{
+							closeMenu();
+						}
+					});
 				}
 				else
 				{
-					closeMenu();
+					$('.menu_container').removeClass('active');
+					menuActive = false;
 				}
 			});
-
-			close.on('click', function()
-			{
-				if(!menuActive)
-				{
-					openMenu();
-				}
-				else
-				{
-					closeMenu();
-				}
-			});
-
-	
 		}
 	}
 
 	function openMenu()
 	{
-		menu.addClass('active');
+		var fs = $('.menu_container');
+		fs.addClass('active');
+		hambActive = true;
 		menuActive = true;
 	}
 
 	function closeMenu()
 	{
-		menu.removeClass('active');
+		var fs = $('.menu_container');
+		fs.removeClass('active');
+		hambActive = false;
 		menuActive = false;
 	}
 
 	/* 
 
-	4. Init Tabs
+	6. Init SVG
 
 	*/
 
-	function initTabs()
+	function initSvg()
 	{
-		if($('.tab').length)
+		jQuery('img.svg').each(function()
 		{
-			$('.tab').on('click', function()
+			var $img = jQuery(this);
+			var imgID = $img.attr('id');
+			var imgClass = $img.attr('class');
+			var imgURL = $img.attr('src');
+
+			jQuery.get(imgURL, function(data)
 			{
-				$('.tab').removeClass('active');
-				$(this).addClass('active');
-				var clickedIndex = $('.tab').index(this);
+				// Get the SVG tag, ignore the rest
+				var $svg = jQuery(data).find('svg');
 
-				var panels = $('.tab_panel');
-				panels.removeClass('active');
-				$(panels[clickedIndex]).addClass('active');
+				// Add replaced image's ID to the new SVG
+				if(typeof imgID !== 'undefined') {
+				$svg = $svg.attr('id', imgID);
+				}
+				// Add replaced image's classes to the new SVG
+				if(typeof imgClass !== 'undefined') {
+				$svg = $svg.attr('class', imgClass+' replaced-svg');
+				}
 
-				setTimeout(function()
-				{
-					$(window).trigger('resize.px.parallax');
-				}, 375);
-			});
-		}
+				// Remove any invalid XML tags as per http://validator.w3.org
+				$svg = $svg.removeAttr('xmlns:a');
+
+				// Replace image with new SVG
+				$img.replaceWith($svg);
+			}, 'xml');
+		});
 	}
 
 });

@@ -9,8 +9,9 @@
 3. Init Menu
 4. Init Accordions
 5. Init Tabs
-6. Init Loaders
-7. Init Milestones
+6. Init Milestones
+7. Init Loaders
+8. Init SVG
 
 
 ******************************/
@@ -19,14 +20,15 @@ $(document).ready(function()
 {
 	"use strict";
 
-	/*
+	/* 
 
 	1. Vars and Inits
 
 	*/
 
 	var header = $('.header');
-	var menu = $('.menu');
+	var hamb = $('.hamburger');
+	var hambActive = false;
 	var menuActive = false;
 	var ctrl = new ScrollMagic.Controller();
 
@@ -35,11 +37,6 @@ $(document).ready(function()
 	$(window).on('resize', function()
 	{
 		setHeader();
-
-		setTimeout(function()
-		{
-			$(window).trigger('resize.px.parallax');
-		}, 375);
 	});
 
 	$(document).on('scroll', function()
@@ -50,10 +47,11 @@ $(document).ready(function()
 	initMenu();
 	initAccordions();
 	initTabs();
-	initLoaders();
 	initMilestones();
+	initLoaders();
+	initSvg();
 
-	/*
+	/* 
 
 	2. Set Header
 
@@ -61,7 +59,7 @@ $(document).ready(function()
 
 	function setHeader()
 	{
-		if($(window).scrollTop() > 91)
+		if($(window).scrollTop() > 100)
 		{
 			header.addClass('scrolled');
 		}
@@ -71,7 +69,7 @@ $(document).ready(function()
 		}
 	}
 
-	/*
+	/* 
 
 	3. Init Menu
 
@@ -79,52 +77,55 @@ $(document).ready(function()
 
 	function initMenu()
 	{
-		if($('.hamburger').length && $('.menu').length)
+		if($('.hamburger').length)
 		{
 			var hamb = $('.hamburger');
-			var close = $('.menu_close_container');
 
-			hamb.on('click', function()
+			hamb.on('click', function(event)
 			{
+				event.stopPropagation();
+
 				if(!menuActive)
 				{
 					openMenu();
+					
+					$(document).one('click', function cls(e)
+					{
+						if($(e.target).hasClass('menu_mm'))
+						{
+							$(document).one('click', cls);
+						}
+						else
+						{
+							closeMenu();
+						}
+					});
 				}
 				else
 				{
-					closeMenu();
+					$('.menu_container').removeClass('active');
+					menuActive = false;
 				}
 			});
-
-			close.on('click', function()
-			{
-				if(!menuActive)
-				{
-					openMenu();
-				}
-				else
-				{
-					closeMenu();
-				}
-			});
-
-
 		}
 	}
 
 	function openMenu()
 	{
-		menu.addClass('active');
+		var fs = $('.menu_container');
+		fs.addClass('active');
+		hambActive = true;
 		menuActive = true;
 	}
 
 	function closeMenu()
 	{
-		menu.removeClass('active');
+		var fs = $('.menu_container');
+		fs.removeClass('active');
+		hambActive = false;
 		menuActive = false;
 	}
-
-	/*
+	/* 
 
 	4. Init Accordions
 
@@ -144,7 +145,7 @@ $(document).ready(function()
 				{
 					var panel = $(acc.next());
 					var panelH = panel.prop('scrollHeight') + "px";
-
+					
 					if(panel.css('max-height') == "0px")
 					{
 						panel.css('max-height', panel.prop('scrollHeight') + "px");
@@ -152,7 +153,7 @@ $(document).ready(function()
 					else
 					{
 						panel.css('max-height', "0px");
-					}
+					} 
 				}
 
 				acc.on('click', function()
@@ -162,7 +163,7 @@ $(document).ready(function()
 						acc.removeClass('active');
 						var panel = $(acc.next());
 						var panelH = panel.prop('scrollHeight') + "px";
-
+						
 						if(panel.css('max-height') == "0px")
 						{
 							panel.css('max-height', panel.prop('scrollHeight') + "px");
@@ -170,14 +171,14 @@ $(document).ready(function()
 						else
 						{
 							panel.css('max-height', "0px");
-						}
+						} 
 					}
 					else
 					{
 						acc.addClass('active');
 						var panel = $(acc.next());
 						var panelH = panel.prop('scrollHeight') + "px";
-
+						
 						if(panel.css('max-height') == "0px")
 						{
 							panel.css('max-height', panel.prop('scrollHeight') + "px");
@@ -185,14 +186,14 @@ $(document).ready(function()
 						else
 						{
 							panel.css('max-height', "0px");
-						}
+						} 
 					}
 				});
 			});
 		}
 	}
 
-	/*
+	/* 
 
 	5. Init Tabs
 
@@ -211,88 +212,13 @@ $(document).ready(function()
 				var panels = $('.tab_panel');
 				panels.removeClass('active');
 				$(panels[clickedIndex]).addClass('active');
-
-				setTimeout(function()
-				{
-					$(window).trigger('resize.px.parallax');
-				}, 375);
 			});
 		}
 	}
 
-	/*
+	/* 
 
-	6. Init Loaders
-
-	*/
-
-	function initLoaders()
-	{
-		if($('.loader').length)
-		{
-			var loaders = $('.loader');
-
-			loaders.each(function()
-			{
-				var loader = this;
-				var endValue = $(loader).data('perc');
-
-				var loaderScene = new ScrollMagic.Scene({
-		    		triggerElement: this,
-		    		triggerHook: 'onEnter',
-		    		reverse:false
-		    	})
-		    	.on('start', function()
-		    	{
-		    		var bar = new ProgressBar.Circle(loader,
-					{
-						color: '#1F9796',
-						// This has to be the same size as the maximum width to
-						// prevent clipping
-						strokeWidth: 3,
-						trailWidth: 0,
-						trailColor: 'transparent',
-						easing: 'easeInOut',
-						duration: 1400,
-						text:
-						{
-							autoStyleContainer: false
-						},
-						from:{ color: '#1F9796', width: 3 },
-						to: { color: '#1F9796', width: 3 },
-						// Set default step function for all animate calls
-						step: function(state, circle)
-						{
-							circle.path.setAttribute('stroke', state.color);
-							circle.path.setAttribute('stroke-width', state.width);
-
-							var value = Math.round(circle.value() * 100);
-							if (value === 0)
-							{
-								circle.setText('0%');
-							}
-							else
-							{
-								circle.setText(value + "%");
-							}
-						}
-					});
-					bar.text.style.fontFamily = '"Montserrat", sans-serif';
-					bar.text.style.fontSize = '16px';
-					bar.text.style.fontWeight = '500';
-					bar.text.style.color = "#838383";
-
-
-					bar.animate(endValue);  // Number from 0.0 to 1.0
-		    	})
-			    .addTo(ctrl);
-			});
-		}
-	}
-
-	/*
-
-	7. Initialize Milestones
+	6. Initialize Milestones
 
 	*/
 
@@ -334,8 +260,8 @@ $(document).ready(function()
 		    		var counterTween = TweenMax.to(counter, 4,
 		    		{
 		    			value: endValue,
-		    			roundProps:"value",
-						ease: Circ.easeOut,
+		    			roundProps:"value", 
+						ease: Circ.easeOut, 
 						onUpdate:function()
 						{
 							document.getElementsByClassName('milestone_counter')[i].innerHTML = signBefore + counter.value + signAfter;
@@ -345,6 +271,114 @@ $(document).ready(function()
 			    .addTo(ctrl);
 	    	});
 		}
+	}
+
+	/* 
+
+	7. Init Loaders
+
+	*/
+
+	function initLoaders()
+	{
+		if($('.loader').length)
+		{
+			var loaders = $('.loader');
+
+			loaders.each(function()
+			{
+				var loader = this;
+				var endValue = $(loader).data('perc');
+
+				var loaderScene = new ScrollMagic.Scene({
+		    		triggerElement: this,
+		    		triggerHook: 'onEnter',
+		    		reverse:false
+		    	})
+		    	.on('start', function()
+		    	{
+		    		var bar = new ProgressBar.Circle(loader,
+					{
+						color: '#20d34a',
+						// This has to be the same size as the maximum width to
+						// prevent clipping
+						strokeWidth: 3,
+						trailWidth: 0,
+						trailColor: 'transparent',
+						easing: 'easeInOut',
+						duration: 1400,
+						text:
+						{
+							autoStyleContainer: false
+						},
+						from:{ color: '#20d34a', width: 3 },
+						to: { color: '#20d34a', width: 3 },
+						// Set default step function for all animate calls
+						step: function(state, circle)
+						{
+							circle.path.setAttribute('stroke', state.color);
+							circle.path.setAttribute('stroke-width', state.width);
+
+							var value = Math.round(circle.value() * 100);
+							if (value === 0)
+							{
+								circle.setText('0%');
+							}
+							else
+							{
+								circle.setText(value + "%");
+							}
+						}
+					});
+					bar.text.style.fontFamily = '"Roboto", sans-serif';
+					bar.text.style.fontSize = '30px';
+					bar.text.style.fontWeight = '500';
+					bar.text.style.color = "#232323";
+
+
+					bar.animate(endValue);  // Number from 0.0 to 1.0
+		    	})
+			    .addTo(ctrl);
+			});
+		}
+	}
+
+	/* 
+
+	6. Init SVG
+
+	*/
+
+	function initSvg()
+	{
+		jQuery('img.svg').each(function()
+		{
+			var $img = jQuery(this);
+			var imgID = $img.attr('id');
+			var imgClass = $img.attr('class');
+			var imgURL = $img.attr('src');
+
+			jQuery.get(imgURL, function(data)
+			{
+				// Get the SVG tag, ignore the rest
+				var $svg = jQuery(data).find('svg');
+
+				// Add replaced image's ID to the new SVG
+				if(typeof imgID !== 'undefined') {
+				$svg = $svg.attr('id', imgID);
+				}
+				// Add replaced image's classes to the new SVG
+				if(typeof imgClass !== 'undefined') {
+				$svg = $svg.attr('class', imgClass+' replaced-svg');
+				}
+
+				// Remove any invalid XML tags as per http://validator.w3.org
+				$svg = $svg.removeAttr('xmlns:a');
+
+				// Replace image with new SVG
+				$img.replaceWith($svg);
+			}, 'xml');
+		});
 	}
 
 });

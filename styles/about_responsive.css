@@ -63,25 +63,13 @@
 
 @media only screen and (max-width: 1199px)
 {
-	.search_container_form
+	.box
 	{
-		width: 217px;
+		height: 313px;
 	}
-	.cta_button
+	.box_phone
 	{
-		margin-top: 30px;
-	}
-	.footer_contact_form div input
-	{
-		width: 100%;
-	}
-	.footer_nav ul li:not(:last-child)
-	{
-		margin-right: 40px;
-	}
-	.footer_links
-	{
-		margin-left: 54px;
+		font-size: 24px;
 	}
 }
 
@@ -109,75 +97,97 @@
 
 @media only screen and (max-width: 991px)
 {
-	.home_title
+	.main_nav
 	{
-		font-size: 48px;
+		display: none;
 	}
-	.header,
-	.header.scrolled
+	.logo_container
 	{
-		position: fixed;
-		top: 0px;
-		left: 0;
+		width: 181px;
 	}
-	.header_top_extra,
-	.header_nav
+	.logo_content
 	{
-		display: none !important;
+		padding-left: 28px;
+	}
+	.logo_text
+	{
+		font-size: 24px;
+	}
+	.logo_sub
+	{
+		font-size: 12px;
+		font-weight: 400;
+	}
+	.top_bar_content
+	{
+		padding-left: 166px;
+	}
+	.top_bar_item
+	{
+		margin-left: 27px;
+	}
+	.top_bar_item a
+	{
+		font-size: 12px;
+	}
+	.emergencies
+	{
+		font-size: 12px;
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+	.logo_box
+	{
+		width: 18px;
+		height: 18px;
+		line-height: 18px;
+		font-size: 18px;
+		-webkit-transform: translateY(-1px);
+		-moz-transform: translateY(-1px);
+		-ms-transform: translateY(-1px);
+		-o-transform: translateY(-1px);
+		transform: translateY(-1px);
 	}
 	.hamburger
 	{
 		display: block;
 	}
-	.about_image
+	.about_text
 	{
-		position: relative;
-		top: auto;
-		-webkit-transform: none;
-		-moz-transform: none;
-		-ms-transform: none;
-		-o-transform: none;
-		transform: none;
-		right: auto;
-		margin-top: 30px;
+		padding-right: 0;
 	}
-	.about_text_2
+	.boxes_col
 	{
-		margin-top: 12px;
+		margin-top: 95px;
 	}
-	.milestone_col:not(:last-child)
+	.box
 	{
-		margin-bottom: 80px;
+		height: auto;
+		padding-bottom: 40px;
 	}
-	.footer_col:not(:last-child)
+	.test_col:not(:last-child)
 	{
-		margin-bottom: 100px;
+		margin-bottom: 95px;
 	}
-	.footer_contact
+	.team_col:not(:last-child)
 	{
-		padding-top: 0;
+		margin-bottom: 75px;
 	}
-	.footer_bar_content
+	.footer_column
+	{
+		padding-top: 75px;
+	}
+	.copyright_content
 	{
 		height: auto;
 		padding-top: 30px;
 		padding-bottom: 30px;
 	}
-	.footer_nav ul li:not(:last-child)
+	.footer_social ul
 	{
-		margin-bottom: 8px;
-	}
-	.footer_links ul li:not(:last-child)::after
-	{
-		display: none;
-	}
-	.footer_phone
-	{
-		margin-left: 80px;
-	}
-	.footer_links ul li:not(:last-child)
-	{
-		margin-bottom: 7px;
+		margin-right: 0;
+		margin-left: -5px;
+		margin-top: 15px;
 	}
 }
 
@@ -214,7 +224,26 @@
 
 @media only screen and (max-width: 767px)
 {
-	
+	.top_bar
+	{
+		display: none;
+	}
+	.logo_container
+	{
+		height: 127px;
+	}
+	.logo
+	{
+		margin-top: 9px;
+	}
+	.loader_col:not(:last-child)
+	{
+		margin-bottom: 95px;
+	}
+	.cta_content h2
+	{
+		font-size: 36px;
+	}
 }
 
 /************
@@ -227,61 +256,112 @@
 	{
 		font-size: 13px;
 	}
+	.header.scrolled
+	{
+		top: 0px !important;
+	}
+	.header_content,
+	.header.scrolled .header_content
+	{
+		height: 60px;
+	}
+	.header.scrolled .logo_container
+	{
+		top: 0;
+	}
+	.header.scrolled .logo_container
+	{
+		height: 77px;
+	}
+	.hamburger i
+	{
+		font-size: 20px;
+	}
+	.logo_container
+	{
+		width: 141px;
+		height: 77px;
+	}
+	.logo_content
+	{
+		padding-left: 20px;
+	}
+	.logo_text
+	{
+		font-size: 16px;
+	}
+	.logo_box
+	{
+		width: 12px;
+		height: 12px;
+		line-height: 12px;
+		font-size: 12px;
+	}
+	.logo_sub
+	{
+		font-size: 10px;
+		padding-left: 1px;
+	}
+	.menu
+	{
+		top: 90px;
+	}
 	.menu_close_container
 	{
-		top: 31px;
-		right: 28px;
+		top: 20px;
+		right: 20px;
+	}
+	.menu_container
+	{
+		width: 100vw;
+		right: -100vw;
 	}
 	.menu_item a
 	{
-		font-size: 28px;
-	}
-	.button
-	{
-		height: 40px;
-	}
-	.button a span
-	{
-		font-size: 10px;
-	}
-	.section_title
-	{
-		font-size: 28px;
-		max-width: 100%;
+		font-size: 20px;
 	}
 	.home
 	{
-		height: 320px;
+		height: 230px;
+	}
+	.home_container
+	{
+		bottom: 47px;
 	}
 	.home_title
 	{
-		font-size: 28px;
+		font-size: 24px;
 	}
-	.about_text_highlight
+	.breadcrumbs ul li, .breadcrumbs ul li a
 	{
-		font-size: 14px;
+		font-size: 12px;
 	}
-	.cta_title
+	.section_title h2
 	{
 		font-size: 24px;
 	}
-	.cta_subtitle
+	.button
 	{
-		font-size: 13px;
+		height: 41px;
 	}
-	.footer_about_text
+	.button a
 	{
-		font-size: 13px;
+		font-size: 11px;
+		line-height: 41px;
+		padding-left: 29px;
+		padding-right: 34px;
 	}
-	.footer_links
+	.box_emergency_text
 	{
-		margin-left: 0;
-		margin-top: 40px;
+		font-size:13px;
 	}
-	.footer_phone
+	.test_text
 	{
-		margin-left: 0;
-		margin-top: 40px;
+		font-size: 14px;
+	}
+	.cta_content h2
+	{
+		font-size: 28px;
 	}
 }
 
