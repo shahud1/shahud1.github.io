@@ -19,7 +19,7 @@ $(document).ready(function()
 {
 	"use strict";
 
-	/* 
+	/*
 
 	1. Vars and Inits
 
@@ -53,7 +53,7 @@ $(document).ready(function()
 	initLoaders();
 	initMilestones();
 
-	/* 
+	/*
 
 	2. Set Header
 
@@ -71,7 +71,7 @@ $(document).ready(function()
 		}
 	}
 
-	/* 
+	/*
 
 	3. Init Menu
 
@@ -108,7 +108,7 @@ $(document).ready(function()
 				}
 			});
 
-	
+
 		}
 	}
 
@@ -124,7 +124,7 @@ $(document).ready(function()
 		menuActive = false;
 	}
 
-	/* 
+	/*
 
 	4. Init Accordions
 
@@ -144,7 +144,7 @@ $(document).ready(function()
 				{
 					var panel = $(acc.next());
 					var panelH = panel.prop('scrollHeight') + "px";
-					
+
 					if(panel.css('max-height') == "0px")
 					{
 						panel.css('max-height', panel.prop('scrollHeight') + "px");
@@ -152,7 +152,7 @@ $(document).ready(function()
 					else
 					{
 						panel.css('max-height', "0px");
-					} 
+					}
 				}
 
 				acc.on('click', function()
@@ -162,7 +162,7 @@ $(document).ready(function()
 						acc.removeClass('active');
 						var panel = $(acc.next());
 						var panelH = panel.prop('scrollHeight') + "px";
-						
+
 						if(panel.css('max-height') == "0px")
 						{
 							panel.css('max-height', panel.prop('scrollHeight') + "px");
@@ -170,14 +170,14 @@ $(document).ready(function()
 						else
 						{
 							panel.css('max-height', "0px");
-						} 
+						}
 					}
 					else
 					{
 						acc.addClass('active');
 						var panel = $(acc.next());
 						var panelH = panel.prop('scrollHeight') + "px";
-						
+
 						if(panel.css('max-height') == "0px")
 						{
 							panel.css('max-height', panel.prop('scrollHeight') + "px");
@@ -185,14 +185,14 @@ $(document).ready(function()
 						else
 						{
 							panel.css('max-height', "0px");
-						} 
+						}
 					}
 				});
 			});
 		}
 	}
 
-	/* 
+	/*
 
 	5. Init Tabs
 
@@ -220,7 +220,7 @@ $(document).ready(function()
 		}
 	}
 
-	/* 
+	/*
 
 	6. Init Loaders
 
@@ -246,7 +246,7 @@ $(document).ready(function()
 		    	{
 		    		var bar = new ProgressBar.Circle(loader,
 					{
-						color: '#32c69a',
+						color: '#1F9796',
 						// This has to be the same size as the maximum width to
 						// prevent clipping
 						strokeWidth: 3,
@@ -258,8 +258,8 @@ $(document).ready(function()
 						{
 							autoStyleContainer: false
 						},
-						from:{ color: '#32c69a', width: 3 },
-						to: { color: '#32c69a', width: 3 },
+						from:{ color: '#1F9796', width: 3 },
+						to: { color: '#1F9796', width: 3 },
 						// Set default step function for all animate calls
 						step: function(state, circle)
 						{
@@ -290,7 +290,7 @@ $(document).ready(function()
 		}
 	}
 
-	/* 
+	/*
 
 	7. Initialize Milestones
 
@@ -334,8 +334,8 @@ $(document).ready(function()
 		    		var counterTween = TweenMax.to(counter, 4,
 		    		{
 		    			value: endValue,
-		    			roundProps:"value", 
-						ease: Circ.easeOut, 
+		    			roundProps:"value",
+						ease: Circ.easeOut,
 						onUpdate:function()
 						{
 							document.getElementsByClassName('milestone_counter')[i].innerHTML = signBefore + counter.value + signAfter;
