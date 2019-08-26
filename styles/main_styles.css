@@ -375,7 +375,7 @@ section
 .logo a
 {
 	line-height: 0.75;
-	color: #404040;
+	color: #1F9796;
 	font-size: 24px;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -384,7 +384,7 @@ section
 {
 	position: relative;
 	font-size: 36px;
-	color: #1F9796;
+	color: #727377;
 	line-height: 0.75;
 	vertical-align: text-top;
 }
