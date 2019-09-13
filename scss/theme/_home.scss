@@ -99,13 +99,15 @@
 //--------- Start Banner Area -------------//
 
 .banner-area {
-	background-image:url(../img/banner-bg.jpg)  no-repeat scroll right top #000000;
-	  background-size:cover;
-		background-repeat: no-repeat;
-		-o-background-size: cover;
-    -moz-background-size: cover;
-    -webkit-background-size: cover;
-    background-attachment: fixed;
+	background:url(../img/top-banner.jpg) center;
+
+	  // background-image:url(../img/banner-bg.jpg)  no-repeat scroll right top #000000;
+	  // background-size:cover;
+		// background-repeat: no-repeat;
+		// -o-background-size: cover;
+    // -moz-background-size: cover;
+    // -webkit-background-size: cover;
+    // background-attachment: fixed;
 
 	.fullscreen {
 		@include media-breakpoint-down (sm) {
