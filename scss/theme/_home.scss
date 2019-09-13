@@ -106,11 +106,11 @@
     -moz-background-size: cover;
     -webkit-background-size: cover;
     background-attachment: fixed;
-	// .fullscreen {
-	// 	@include media-breakpoint-down (sm) {
-	// 		height: 700px !important;
-	// 	}
-	// }
+	.fullscreen {
+		@include media-breakpoint-down (sm) {
+			height: 700px !important;
+		}
+	}
 	.primary-btn{
 		padding-left: 30px;
 		padding-right: 30px;
