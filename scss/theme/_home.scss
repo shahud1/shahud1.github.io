@@ -99,16 +99,9 @@
 //--------- Start Banner Area -------------//
 
 .banner-area {
-	background:url(../img/top-banner.jpg) center;
-
-	  // background-image:url(../img/banner-bg.jpg)  no-repeat scroll right top #000000;
-	  // background-size:cover;
-		// background-repeat: no-repeat;
-		// -o-background-size: cover;
-    // -moz-background-size: cover;
-    // -webkit-background-size: cover;
-    // background-attachment: fixed;
-
+	background:url(../img/banner-bg.jpg) center;
+	background-size:cover;
+    background-attachment: fixed;	
 	.fullscreen {
 		@include media-breakpoint-down (sm) {
 			height: 700px !important;
@@ -138,7 +131,7 @@
 	}
 	p{
 		max-width:900px;
-	}
+	}	
 	h6{
 		color:$white;
 		letter-spacing:2px;
@@ -176,11 +169,11 @@
 //--------- End Banner Area -------------//
 
 //--------- start open-hour Area -------------//
-
+	
 
 .open-hour-area{
 	margin-top:-100px;
-	z-index:2;
+	z-index:2;	
 	position:relative;
 }
 
@@ -188,7 +181,7 @@
 	text-align:center;
 	border-radius:10px;
 	box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.05);
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);	
   	background-color:$white;
   	padding:60px 0px;
   	p{
@@ -199,8 +192,8 @@
   		background-color:$offwhite;
   		color:$black;
   		font-weight: 600;
-		padding: 8px 30px;
-		margin-top:30px;
+		padding: 8px 30px; 
+		margin-top:30px; 		
   	}
   	.circle{
   		margin-right:10px;
@@ -223,7 +216,7 @@
   				margin-right:20px;
   			}
   		}
-
+		
   	}
 }
 
@@ -286,7 +279,7 @@
 
 	.home-about-right{
 		max-width:580px;
-		padding-left:35px;
+		padding-left:35px; 
 		@media(max-width:1024px){
 			padding-left:15px;
 		}
@@ -303,7 +296,7 @@
 		}
 		@media(max-width:414px){
 			p{
-				font-size:10px;
+				font-size:10px;	
 				max-width:90%;
 			}
 		}
@@ -346,12 +339,12 @@
 		@include transition;
 	    background:$primary-color;
 	}
-
+		
 	@media(max-width:414px){
 		.active-tstimonial-carusel{
 			padding:30px;
 		}
-	}
+	}	
 }
 
 .single-testimonial{
@@ -365,7 +358,7 @@
 		@include transition();
 	}
 	.desc{
-		padding:30px 0px;
+		padding:30px 0px; 
 	}
 	&:hover{
 		cursor:pointer;
@@ -386,7 +379,7 @@
 
 .team-area{
 	background-color:$offwhite;
-
+	
 	.single-team{
 		padding:10px;
 	}
@@ -498,7 +491,7 @@
 
 	.appoinment-right{
 		max-width:580px;
-		padding-left:35px;
+		padding-left:35px; 
 		@media(max-width:1024px){
 			padding-left:15px;
 		}
@@ -523,8 +516,8 @@
 		}
 	    @media(max-width:991px){
 			max-width:100%;
-			padding-right:15px;
-	    }
+			padding-right:15px; 			
+	    }		
 	}
 
 }
@@ -637,7 +630,7 @@
 				}
 			}
 		}
-
+		
 		i{
 			color:#cccccc;
 			@include transition();
@@ -676,11 +669,11 @@
 			z-index:9999;
 			cursor:pointer;
 		}
-
+		
 		.primary-btn{
-			padding-right: 55px;
+			padding-right: 55px;			
 		}
-
+			
 		@media(max-width:991px){
 			.nw-btn{
 				margin-top:20px;
@@ -744,7 +737,7 @@
 		}
 	}
 
-
+		
 	.footer-bottom{
 		padding-top:80px;
 	}
@@ -799,7 +792,7 @@
 
 .generic-content{
 	h1{
-		font-weight:600;
+		font-weight:600;	
 	}
 }
 
@@ -843,7 +836,7 @@
 
 .about-content{
 	margin-top: 110px;
-	padding: 50px 0px;
+	padding: 50px 0px;	
 	text-align:center;
 	@media(max-width:767px){
 		margin-top:70px;
@@ -860,7 +853,7 @@
 	.lnr{
 		margin:0px 10px;
 		font-weight:600;
-	}
+	}	
 }
 
 //--------- End Common Page Style For  -------------//
@@ -889,13 +882,13 @@
 		h4{
 			font-size:20px;
 			font-weight:300;
-		}
+		} 		
 	}
 	.price-bottom{
 		background-color:#fbfcff;
 		margin: 0 45px 45px 45px;
 		padding: 35px;
-		@include transition();
+		@include transition();		
 		h1{
 			font-size: 60px;
 			font-weight: 300;
@@ -910,7 +903,7 @@
 			text-align:left;
 			margin-top:15px;
 			margin-left:10px;
-		}
+		}		
 		.primary-btn{
 			width:100%;
 			border-radius:0;
@@ -967,7 +960,7 @@
 	.map-wrap{
 		margin-bottom:120px;
 		@media(max-width:991px){
-			margin-bottom:50px;
+			margin-bottom:50px;	
 		}
 	}
 
@@ -985,7 +978,7 @@
 
 	.form-area{
 		input{
-			padding: 15px;
+			padding: 15px;		
 		}
 		input,textarea{
 			border-radius:0;
@@ -1012,7 +1005,7 @@
 			font-weight:300;
 			font-size:16px;
 			margin-bottom:5px;
-		}
+		}	
 		.lnr{
 			font-size:30px;
 			font-weight:500;
@@ -1080,7 +1073,7 @@
 			background:rgba(#000, .85);
 			margin:7%;
 			@include transition();
-		}
+		}		
 		position:relative;
 		text-align:center;
 		img{
@@ -1088,10 +1081,10 @@
 		}
 		.content-details{
 			top: 32%;
-			left: 0;
-			right: 0;
-			margin-left: auto;
-			margin-right: auto;
+			left: 0; 
+			right: 0; 
+			margin-left: auto; 
+			margin-right: auto; 
 			color:$white;
 			bottom:0px;
 			position: absolute;
@@ -1110,7 +1103,7 @@
 				background:rgba($primary-color, .85);
 				margin:7%;
 				@include transition();
-			}
+			}				
 		}
 		@media(max-width:991px){
 			margin-bottom:50px;
@@ -1125,7 +1118,7 @@
 			text-align:right;
 			margin-top:35px;
 			@media(max-width:767px){
-				text-align:left;
+				text-align:left;	
 			}
 			.tags{
 				margin-bottom:30px;
@@ -1167,7 +1160,7 @@
 		}
 		.posts-title{
 			h3{
-				margin:20px 0px;
+				margin:20px 0px;		
 			}
 		}
 		.excert{
@@ -1182,7 +1175,7 @@
 				background:$primary-color!important;
 				color:$white!important;
 			}
-		}
+		}			
 
 	}
 }
@@ -1200,7 +1193,7 @@
 
 .page-link{
 	background:transparent;
-  	font-weight: 400;
+  	font-weight: 400;	
 }
 
 .blog-pagination .page-item.active .page-link {
@@ -1249,7 +1242,7 @@
 			margin-bottom:0px;
 		}
 	}
-
+	
 	.search-widget{
 
 		form.search-form input[type=text] {
@@ -1259,8 +1252,8 @@
 		    border: none;
 		    float: left;
 		    width: 80%;
-			border-bottom-left-radius:20px;
-			border-top-left-radius:20px;
+			border-bottom-left-radius:20px;		    
+			border-top-left-radius:20px;		    
 			background:$primary-color;
 		}
 
@@ -1275,7 +1268,7 @@
 		}
 		:-moz-placeholder { /* Firefox 18- */
 		  color: $white;
-		}
+		}		
 
 		form.search-form button {
 		    float: left;
@@ -1286,15 +1279,15 @@
 		    font-size: 17px;
 		    border: none;
 		    cursor: pointer;
-			border-bottom-right-radius:20px;
-			border-top-right-radius:20px;
+			border-bottom-right-radius:20px;		    
+			border-top-right-radius:20px;		    
 		}
 
 		form.search-form::after {
 		    content: "";
 		    clear: both;
 		    display: table;
-		}
+		}		
 	}
 
 	.user-info-widget{
@@ -1350,7 +1343,7 @@
 			}
 		}
 	}
-
+		
 	.ads-widget{
 		img{
 			width:100%;
@@ -1376,7 +1369,7 @@
 					color:$text-color;
 				}
 				padding-top:15px;
-				padding-bottom:8px;
+				padding-bottom:8px;				
 				border-bottom:2px dotted #eee;
 				@include transition();
 				&:hover{
@@ -1396,7 +1389,7 @@
 			text-align:center;
 			padding:12px 0px;
 		}
-
+		
 		.col-autos{
 			width:100%;
 		}
@@ -1410,9 +1403,9 @@
 			color:$white;
 			font-size:12px;
 			font-weight:400;
-			padding: 8px 20px;
+			padding: 8px 20px;			
 			border-radius:0;
-		}
+		}	
 		.input-group-text{
 			background:$white;
 			border-radius:0px;
@@ -1423,8 +1416,8 @@
 			}
 		}
 		.form-control{
-			border-left: none!important;
-			border-right: none!important;
+			border-left: none!important;			
+			border-right: none!important;			
 			border-radius:0px;
 			font-size:13px;
 			color:#ccc;
@@ -1453,7 +1446,7 @@
 		}
 		.text-bottom{
 			margin-bottom:0px;
-		}
+		}		
 
 	}
 	.tag-cloud-widget{
@@ -1463,21 +1456,21 @@
 			text-align:center;
 			padding:12px 0px;
 			margin-bottom:30px;
-		}
+		}		
 		ul{
 			li{
 				display:inline-block;
 				border:1px solid #eee;
 				background:#fff;
 				padding:4px 14px;
-				margin-bottom:10px;
+				margin-bottom:10px;	
 				@include transition();
 				&:hover{
 					background:$primary-color;
 					a{
 						color:$white;
 					}
-				}
+				}			
 				a{
 					font-size:12px;
 					color:black;
@@ -1524,7 +1517,7 @@
 				}
 			}
 		}
-	}
+	}	
 
 
 	.quotes{
@@ -1659,14 +1652,14 @@
 		}
 		.btn-reply{
 			background-color:$white;
-			color: $black;
-			padding: 8px 30px;
+			color: $black;	
+			padding: 8px 30px;	
 			display:block;
 			@include transition();
 			&:hover{
 				background-color:$primary-color;
 				color: $white;
-			}
+			}	
 		}
 }
 
@@ -1692,18 +1685,18 @@
 		@media(max-width:991px){
 			padding-left:0px;
 		}
-	}
+	}	
 	.form-control{
 		padding:10px;
 		background:#fff;
 		border:none;
 		border-radius:0px;
 		width:100%;
-		font-size:13px;
+		font-size:13px;		
 		color:#777777;
 		&:focus{
 			box-shadow:none;
-		}
+		}		
 	}
 		::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 		  font-size:13px;
@@ -1720,7 +1713,7 @@
 		:-moz-placeholder { /* Firefox 18- */
 		  font-size:13px;
 		  color:#777;
-		}
+		}	
 		.primary-btn{
 			border-radius:0px!important;
 			border:1px solid transparent;
@@ -1730,7 +1723,7 @@
 				color:$primary-color!important;
 			}
 		}
-}
+}	
 
 
 /*
@@ -1738,3 +1731,9 @@
                End Blog Details  Page style
 ################
 */
+
+
+
+
+
+
