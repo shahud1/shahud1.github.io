@@ -99,13 +99,14 @@
 //--------- Start Banner Area -------------//
 
 .banner-area {
-	background-image:url(../img/banner-bg.gif) center;
-	//background-size:cover;
+	  background-size:cover;
 		background-repeat: no-repeat;
 		-o-background-size: cover;
     -moz-background-size: cover;
     -webkit-background-size: cover;
     background-attachment: fixed;
+		background-image:url(../img/banner-bg.gif) center;
+
 	.fullscreen {
 		@include media-breakpoint-down (sm) {
 			height: 700px !important;
