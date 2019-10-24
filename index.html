@@ -3,7 +3,7 @@
 
 <head>
   <meta charset='utf-8' />
-  <title>NYC vehicle collisions</title>
+  <title>HAUPcar Data visualization</title>
   <meta name='robots' content='noindex, nofollow'>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
@@ -36,14 +36,16 @@
     }
     #console {
       position: absolute;
-      width: 240px;
-      margin: 10px;
-      padding: 10px 20px;
+      width: 230px;
+      margin: 5px;
+      padding: 1px 5px;
       background-color: rgb(87, 85, 85);
-      border-radius: 3px;
+      border-radius: 10px;
+      top: 7px;
+      left: 6px;
     }
     .session {
-      margin-bottom: 20px;
+      margin-bottom: 9px;
     }
     .row {
       height: 12px;
@@ -64,8 +66,8 @@
           background: #fff;
           position: absolute;
           z-index: 1;
-          top: 10px;
-          right: 10px;
+          top: 350px;
+          left: 10.5px;
           border-radius: 3px;
           width: 120px;
           border: 1px solid rgba(0,0,0,0.4);
@@ -130,12 +132,23 @@
         <div class='label'>30</div>
         <div class='label'>45</div>
         <div class='label'>60</div>
-        <div class='label'>60+</div>
+        <div class='label'>75+</div>
       </div>
     </div>
     <div class='session' id='sliderbar'>
       <h5 style="color:rgb(255, 255, 255);">HEATMAP: (Hourly): <label id='active-hour'>12PM</label></h5>
       <input id='slider' class='row' type='range' min='0' max='23' step='1' value='12' />
+    </div>
+    <div class='session'>
+      <h5 style="color:rgb(255, 255, 255);">Day of the week</h5>
+      <div class='row' id='filters'>
+        <input id='all' type='radio' name='toggle' value='all' checked='checked'>
+        <label for='all' style="color:rgb(255, 255, 255); ">All</label>
+        <input id='weekday' type='radio' name='toggle' value='weekday'>
+        <label for='weekday' style="color:rgb(255, 255, 255);">Weekday</label>
+        <input id='weekend' type='radio' name='toggle' value='weekend'>
+        <label for='weekend' style="color:rgb(255, 255, 255);">Weekend</label>
+      </div>
     </div>
   </div>
   <script>
@@ -149,12 +162,16 @@
     });
 
 
-    map.on('load', function () {
+map.on('load', function () {
+
+    
+    var filterHour = ['==', ['number',['get', 'logtime']], 12];
+    var filterDay = ['!=', ['string',['get', 'day']], 'placeholder'];
 
 
 
-      d3.json('icondata.geojson', function(err, dataset) {
-    if (err) throw err;
+d3.json('icondata.geojson', function(err, dataset) {
+if (err) throw err;
 
 map.loadImage('haup.png', function(error, image) {
       if (error) throw error;
@@ -171,9 +188,9 @@ map.loadImage('haup.png', function(error, image) {
         "layout": {
             "icon-image": "cat",
             "icon-allow-overlap": true,
-            "icon-size": 0.10
+            "icon-size": 0.07
         }
-    });
+});
 
 
 
@@ -335,6 +352,23 @@ map.loadImage('haup.png', function(error, image) {
         // update text in the UI
         document.getElementById('active-hour').innerText = hour12 + ampm;
       });
+
+      document.getElementById('filters').addEventListener('change', function(e) {
+      var day = e.target.value;
+      // update the map filter
+      if (day === 'all') {
+        filterDay = ['!=', ['string', ['get','day']], 'placeholder'];
+      } else if (day === 'weekday') {
+        filterDay = ['match', ['get', 'day'], ['Saturday', 'Sunday'], false, true];
+      } else if (day === 'weekend') {
+        filterDay = ['match', ['get', 'day'], ['Saturday', 'Sunday'], true, false];
+      } else {
+        console.log('error');
+      };
+      map.setFilter('Heatmap', ['all', filterHour, filterDay]);
+      map.setFilter('Mini stops', ['all', filterDay]);
+
+    });
 
 
 
