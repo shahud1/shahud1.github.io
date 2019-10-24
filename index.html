@@ -109,8 +109,8 @@
       map.addSource('hourly', {
         type: 'geojson',
         lineMetrics: true,
-        data: 'https://dl.dropboxusercontent.com/s/u7nc5280wjdi13x/demo2.geojson'
-        //data: './demo.geojson'
+        //data: 'https://dl.dropboxusercontent.com/s/u7nc5280wjdi13x/demo2.geojson'
+        data: './demo2.geojson'
       });
 
 
@@ -118,7 +118,7 @@
         id: 'maphourly',
         type: 'heatmap',
         source: 'hourly',
-        maxzoom: 9,
+        maxzoom: 24,
         paint: {
           // Increase the heatmap weight based on frequency and property magnitude
           "heatmap-weight": [
@@ -172,100 +172,14 @@
         'filter': ['==', ['number', ['get', 'logtime']], 12]
       });
 
-      map.addLayer({
-        "id": "earthquakes-point",
-        "type": "circle",
-        "source": "hourly",
-        "minzoom": 4,
-        "paint": {
-          // Size circle radius by earthquake magnitude and zoom level
-          "circle-radius": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            7, [
-              "interpolate",
-              ["linear"],
-              ["get", "mag"],
-              1, 1,
-              6, 4
-            ],
-            16, [
-              "interpolate",
-              ["linear"],
-              ["get", "mag"],
-              1, 5,
-              6, 50
-            ]
-          ],
-          // Color circle by earthquake magnitude
-          "circle-color": [
-            "interpolate",
-            ["linear"],
-            ["get", "mag"],
-            1, "rgba(33,102,172,0)",
-            2, "rgb(103,169,207)",
-            3, "rgb(209,229,240)",
-            4, "rgb(253,219,199)",
-            5, "rgb(239,138,98)",
-            6, "rgb(178,24,43)"
-          ],
-          "circle-stroke-color": "white",
-          "circle-stroke-width": 1,
-          // Transition from heatmap to circle layer by zoom level
-          "circle-opacity": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            7, 0,
-            8, 1
-          ]
-        }
-      }, 'waterway-label');
+     
 
-
-////////////////DAY1///////////////////
-
-
-      // the layer must be of type 'line'
-      map.addLayer({
-          type: 'line',
-          source: 'hourly',
-          id: 'Day1',
-          paint: {
-              'line-color': 'red',
-              'line-width': 5,
-              // 'line-gradient' must be specified using an expression
-              // with the special 'line-progress' property
-              'line-gradient': [
-                  'interpolate',
-                  ['linear'],
-                  ['line-progress'],
-                  0, "blue",
-                  0.1, "royalblue",
-                  0.3, "cyan",
-                  0.5, "lime",
-                  0.7, "yellow",
-                  1, "red"
-              ]
-          },
-          layout: {
-              'line-cap': 'round',
-              'line-join': 'round'
-          }
-      });
-
-
-
-
-/////////////////////////////////////////////
 
       // update hour filter when the slider is dragged
       document.getElementById('slider').addEventListener('input', function (e) {
         var hour = parseInt(e.target.value);
         // update the map
         map.setFilter('maphourly', ['==', ['number', ['get', 'logtime']], hour]);
-        map.setFilter('earthquakes-point', ['==', ['number', ['get', 'logtime']], hour]);
 
         // converting 0-23 hour to AMPM format
         var ampm = hour >= 12 ? 'PM' : 'AM';
