@@ -14,58 +14,104 @@
       padding: 0;
       font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
     }
-
     #map {
       position: absolute;
       top: 0;
       bottom: 0;
       width: 100%;
     }
-
     h1 {
       font-size: 20px;
       line-height: 30px;
+      text-align: center;
     }
-
     h2 {
       font-size: 14px;
       line-height: 20px;
       margin-bottom: 10px;
     }
-
     a {
       text-decoration: none;
       color: #2DC4B2;
     }
-
     #console {
       position: absolute;
       width: 240px;
       margin: 10px;
       padding: 10px 20px;
-      background-color: white;
+      background-color: rgb(87, 85, 85);
+      border-radius: 3px;
     }
-
     .session {
       margin-bottom: 20px;
     }
-
     .row {
       height: 12px;
       width: 100%;
     }
-
     .colors {
-      background: linear-gradient(to right, #2DC4B2, #3BB3C3, #669EC4, #8B88B6, #A2719B, #AA5E79);
+      background: linear-gradient(to right, rgb(133, 177, 172), rgb(78, 213, 231), rgb(240, 201, 142), rgb(250, 182, 56), rgb(240, 70, 70), rgb(255, 1, 1));
       margin-bottom: 5px;
     }
-
     .label {
       width: 15%;
       display: inline-block;
       text-align: center;
     }
+
+
+    #menu {
+          background: #fff;
+          position: absolute;
+          z-index: 1;
+          top: 10px;
+          right: 10px;
+          border-radius: 3px;
+          width: 120px;
+          border: 1px solid rgba(0,0,0,0.4);
+          font-family: 'Open Sans', sans-serif;
+      }
+
+      #menu a {
+          font-size: 13px;
+          color: #404040;
+          display: block;
+          margin: 0;
+          padding: 0;
+          padding: 10px;
+          text-decoration: none;
+          border-bottom: 1px solid rgba(0,0,0,0.25);
+          text-align: center;
+      }
+
+      #menu a:last-child {
+          border: none;
+      }
+
+      #menu a:hover {
+          background-color: #f8f8f8;
+          color: #404040;
+      }
+
+      #menu a.active {
+          background-color: rgb(87, 85, 85);
+          color: #ffffff;
+      }
+
+      #menu a.active:hover {
+          background: #3074a4;
+      }
+
   </style>
+
+<style>
+  .mapboxgl-popup {
+      max-width: 400px;
+      font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  }
+</style>
+<nav id="menu"></nav>
+
 </head>
 
 <body>
@@ -73,24 +119,22 @@
 
   <div id='map'></div>
   <div id='console'>
-    <h1>Motor vehicle collisions</h1>
-    <p>Data: <a href='https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95'>Motor vehicle
-        collision injuries and death</a> in NYC, Jan 2016</p>
+    <h1 style="color:rgb(255, 255, 255);">HAUP car data visualization</h1>
     <div class='session'>
-      <h2>Casualty</h2>
+      <h5 style="color:rgb(255, 255, 255);">Ministops: (Mins)</h5>
       <div class='row colors'>
       </div>
       <div class='row labels'>
         <div class='label'>0</div>
-        <div class='label'>1</div>
-        <div class='label'>2</div>
-        <div class='label'>3</div>
-        <div class='label'>4</div>
-        <div class='label'>5+</div>
+        <div class='label'>15</div>
+        <div class='label'>30</div>
+        <div class='label'>45</div>
+        <div class='label'>60</div>
+        <div class='label'>60+</div>
       </div>
     </div>
     <div class='session' id='sliderbar'>
-      <h2>logtime: <label id='active-hour'>12PM</label></h2>
+      <h5 style="color:rgb(255, 255, 255);">HEATMAP: (Hourly): <label id='active-hour'>12PM</label></h5>
       <input id='slider' class='row' type='range' min='0' max='23' step='1' value='12' />
     </div>
   </div>
@@ -104,18 +148,73 @@
       zoom: 12
     });
 
+
     map.on('load', function () {
+
+
+
+      d3.json('icondata.geojson', function(err, dataset) {
+    if (err) throw err;
+
+map.loadImage('haup.png', function(error, image) {
+      if (error) throw error;
+          map.addImage('cat', image);
+
+
+    // Add a layer showing the places.
+    map.addSource('HAUPcar stations', { type: 'geojson', data: dataset });
+
+    map.addLayer({
+        "id": "HAUPcar stations",
+        "type": "symbol",
+        "source": "HAUPcar stations",
+        "layout": {
+            "icon-image": "cat",
+            "icon-allow-overlap": true,
+            "icon-size": 0.10
+        }
+    });
+
+
+
+    map.on('click', 'HAUPcar stations', function (e) {
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties.description;
+
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+
+        new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+    });
+
+    // Change the cursor to a pointer when the mouse is over the places layer.
+    map.on('mouseenter', 'HAUPcar stations', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'HAUPcar stations', function () {
+        map.getCanvas().style.cursor = '';
+    });
+});
+
+
+});
+
 
       map.addSource('hourly', {
         type: 'geojson',
         lineMetrics: true,
         data: 'https://dl.dropboxusercontent.com/s/60twdtgl92g9rsl/demo3.geojson'
-        //data: './demo2.geojson https://www.dropbox.com/s/60twdtgl92g9rsl/demo3.geojson?dl=0
+        //data: './demo3mini.geojson'
+
       });
-
-
       map.addLayer({
-        id: 'maphourly',
+        id: 'Heatmap',
         type: 'heatmap',
         source: 'hourly',
         maxzoom: 24,
@@ -168,29 +267,113 @@
             24, 0
           ],
         },
-
         'filter': ['==', ['number', ['get', 'logtime']], 12]
       });
 
+
+    // Add a geojson point source.
+    // Heatmap layers also work with a vector tile source.
+    map.addSource('earthquakes', {
+        "type": "geojson",
+        "data": "minitrips.geojson"
+    });
+
+    map.addLayer({
+        "id": "Mini stops",
+        "type": "circle",
+        "source": "earthquakes",
+        "minzoom": 2,
+        "paint": {
+            // Size circle radius by earthquake magnitude and zoom level
+            "circle-radius": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                7, [
+                    "interpolate",
+                    ["linear"],
+                    ["get", "duration"],
+                    1, 1,
+                    6, 4
+                ],
+                16, [
+                    "interpolate",
+                    ["linear"],
+                    ["get", "duration"],
+                    800, 2,
+                    40000, 10
+                ]
+            ],
+            // Color circle by earthquake magnitude
+            "circle-color": [
+                "interpolate",
+                ["linear"],
+                ["get", "duration"],
+                8000, "rgba(33,102,172,0)",
+                15000, "rgb(103,169,207)",
+                25000, "rgb(209,229,240)",
+                30000, "rgb(253,219,199)",
+                35000, "rgb(239,138,98)",
+                40000, "rgb(178,24,43)"
+            ],
+            "circle-stroke-color": "white",
+            "circle-stroke-width": 0.1,
+
+        }
+    }, 'waterway-label');
+
+
      
-
-
       // update hour filter when the slider is dragged
       document.getElementById('slider').addEventListener('input', function (e) {
         var hour = parseInt(e.target.value);
         // update the map
-        map.setFilter('maphourly', ['==', ['number', ['get', 'logtime']], hour]);
-
+        map.setFilter('Heatmap', ['==', ['number', ['get', 'logtime']], hour]);
         // converting 0-23 hour to AMPM format
         var ampm = hour >= 12 ? 'PM' : 'AM';
         var hour12 = hour % 12 ? hour % 12 : 12;
-
         // update text in the UI
         document.getElementById('active-hour').innerText = hour12 + ampm;
       });
 
 
+
     });
+
+
+var toggleableLayerIds = [ 'HAUPcar stations', 'Mini stops','Heatmap'];
+
+for (var i = 0; i < toggleableLayerIds.length; i++) {
+    var id = toggleableLayerIds[i];
+
+    var link = document.createElement('a');
+    link.href = '#';
+    link.className = 'active';
+    link.textContent = id;
+
+    link.onclick = function (e) {
+        var clickedLayer = this.textContent;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+        if (visibility === 'visible') {
+            map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+            this.className = '';
+        } else {
+            this.className = 'active';
+            map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+        }
+    };
+
+    var layers = document.getElementById('menu');
+    layers.appendChild(link);
+}
+
+
+
+
   </script>
 </body>
 
