@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8' />
+  <title>NYC vehicle collisions</title>
+  <meta name='robots' content='noindex, nofollow'>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 20px;
+      line-height: 30px;
+    }
+
+    h2 {
+      font-size: 14px;
+      line-height: 20px;
+      margin-bottom: 10px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #2DC4B2;
+    }
+
+    #console {
+      position: absolute;
+      width: 240px;
+      margin: 10px;
+      padding: 10px 20px;
+      background-color: white;
+    }
+
+    .session {
+      margin-bottom: 20px;
+    }
+
+    .row {
+      height: 12px;
+      width: 100%;
+    }
+
+    .colors {
+      background: linear-gradient(to right, #2DC4B2, #3BB3C3, #669EC4, #8B88B6, #A2719B, #AA5E79);
+      margin-bottom: 5px;
+    }
+
+    .label {
+      width: 15%;
+      display: inline-block;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+    <script src='https://d3js.org/d3.v3.min.js' charset='utf-8'></script>
+
+  <div id='map'></div>
+  <div id='console'>
+    <h1>Motor vehicle collisions</h1>
+    <p>Data: <a href='https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95'>Motor vehicle
+        collision injuries and death</a> in NYC, Jan 2016</p>
+    <div class='session'>
+      <h2>Casualty</h2>
+      <div class='row colors'>
+      </div>
+      <div class='row labels'>
+        <div class='label'>0</div>
+        <div class='label'>1</div>
+        <div class='label'>2</div>
+        <div class='label'>3</div>
+        <div class='label'>4</div>
+        <div class='label'>5+</div>
+      </div>
+    </div>
+    <div class='session' id='sliderbar'>
+      <h2>logtime: <label id='active-hour'>12PM</label></h2>
+      <input id='slider' class='row' type='range' min='0' max='23' step='1' value='12' />
+    </div>
+  </div>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic2hhaHVkIiwiYSI6ImNrMHZ4MjNsbDAxZ3IzZ29kdzdoamdpdGUifQ.Ovvv6e3tJd9gS8ZbCq2Vpw';
+    // This adds the map to your page
+    var map = new mapboxgl.Map({
+      container: 'map', // container id specified in the HTML
+      style: 'mapbox://styles/mapbox/light-v10', // style URL
+      center: [100.5591349, 13.7909375], // initial map center in [lon, lat]
+      zoom: 12
+    });
+
+    map.on('load', function () {
+
+      map.addSource('hourly', {
+        type: 'geojson',
+        lineMetrics: true,
+        data: 'https://dl.dropboxusercontent.com/s/cdmrvphm1z3j3ra/demo.geojson'
+        //data: './demo.geojson'
+      });
+
+
+      map.addLayer({
+        id: 'maphourly',
+        type: 'heatmap',
+        source: 'hourly',
+        maxzoom: 9,
+        paint: {
+          // Increase the heatmap weight based on frequency and property magnitude
+          "heatmap-weight": [
+            "interpolate",
+            ["linear"],
+            ["get", "logtime"],
+            0, 0,
+            23, 1
+          ],
+          // Increase the heatmap color weight weight by zoom level
+          // heatmap-intensity is a multiplier on top of heatmap-weight
+          "heatmap-intensity": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            0, 1,
+            9, 1
+          ],
+          // Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
+          // Begin color ramp at 0-stop with a 0-transparancy color
+          // to create a blur-like effect.
+          "heatmap-color": [
+            "interpolate",
+            ["linear"],
+            ["heatmap-density"],
+            0, "rgba(33,102,172,0)",
+            0.2, "rgb(103,169,207)",
+            0.4, "rgb(209,229,240)",
+            0.6, "rgb(253,219,199)",
+            0.8, "rgb(239,138,98)",
+            1, "rgb(178,24,43)"
+          ],
+          // Adjust the heatmap radius by zoom level
+          "heatmap-radius": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            0, 2,
+            9, 10
+          ],
+          //Transition from heatmap to circle layer by zoom level
+          "heatmap-opacity": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            2, 1,
+            12, 0
+          ],
+        },
+
+        'filter': ['==', ['number', ['get', 'logtime']], 12]
+      });
+
+      map.addLayer({
+        "id": "earthquakes-point",
+        "type": "circle",
+        "source": "hourly",
+        "minzoom": 4,
+        "paint": {
+          // Size circle radius by earthquake magnitude and zoom level
+          "circle-radius": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            7, [
+              "interpolate",
+              ["linear"],
+              ["get", "mag"],
+              1, 1,
+              6, 4
+            ],
+            16, [
+              "interpolate",
+              ["linear"],
+              ["get", "mag"],
+              1, 5,
+              6, 50
+            ]
+          ],
+          // Color circle by earthquake magnitude
+          "circle-color": [
+            "interpolate",
+            ["linear"],
+            ["get", "mag"],
+            1, "rgba(33,102,172,0)",
+            2, "rgb(103,169,207)",
+            3, "rgb(209,229,240)",
+            4, "rgb(253,219,199)",
+            5, "rgb(239,138,98)",
+            6, "rgb(178,24,43)"
+          ],
+          "circle-stroke-color": "white",
+          "circle-stroke-width": 1,
+          // Transition from heatmap to circle layer by zoom level
+          "circle-opacity": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            7, 0,
+            8, 1
+          ]
+        }
+      }, 'waterway-label');
+
+
+////////////////DAY1///////////////////
+
+
+      // the layer must be of type 'line'
+      map.addLayer({
+          type: 'line',
+          source: 'hourly',
+          id: 'Day1',
+          paint: {
+              'line-color': 'red',
+              'line-width': 5,
+              // 'line-gradient' must be specified using an expression
+              // with the special 'line-progress' property
+              'line-gradient': [
+                  'interpolate',
+                  ['linear'],
+                  ['line-progress'],
+                  0, "blue",
+                  0.1, "royalblue",
+                  0.3, "cyan",
+                  0.5, "lime",
+                  0.7, "yellow",
+                  1, "red"
+              ]
+          },
+          layout: {
+              'line-cap': 'round',
+              'line-join': 'round'
+          }
+      });
+
+
+
+
+/////////////////////////////////////////////
+
+      // update hour filter when the slider is dragged
+      document.getElementById('slider').addEventListener('input', function (e) {
+        var hour = parseInt(e.target.value);
+        // update the map
+        map.setFilter('maphourly', ['==', ['number', ['get', 'logtime']], hour]);
+        map.setFilter('earthquakes-point', ['==', ['number', ['get', 'logtime']], hour]);
+
+        // converting 0-23 hour to AMPM format
+        var ampm = hour >= 12 ? 'PM' : 'AM';
+        var hour12 = hour % 12 ? hour % 12 : 12;
+
+        // update text in the UI
+        document.getElementById('active-hour').innerText = hour12 + ampm;
+      });
+
+
+    });
+  </script>
+</body>
+
+</html>
