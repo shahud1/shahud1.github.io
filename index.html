@@ -154,12 +154,63 @@
   <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoic2hhaHVkIiwiYSI6ImNrMHZ4MjNsbDAxZ3IzZ29kdzdoamdpdGUifQ.Ovvv6e3tJd9gS8ZbCq2Vpw';
     // This adds the map to your page
+
     var map = new mapboxgl.Map({
       container: 'map', // container id specified in the HTML
       style: 'mapbox://styles/shahud/ck24ah1hk1n041cnxawgecmuu', // style URL
       center: [100.5591349, 13.7909375], // initial map center in [lon, lat]
       zoom: 12
     });
+
+    var size = 200;
+
+var pulsingDot = {
+    width: size,
+    height: size,
+    data: new Uint8Array(size * size * 4),
+
+    onAdd: function() {
+        var canvas = document.createElement('canvas');
+        canvas.width = this.width;
+        canvas.height = this.height;
+        this.context = canvas.getContext('2d');
+    },
+
+    render: function() {
+        var duration = 1000;
+        var t = (performance.now() % duration) / duration;
+
+        var radius = size / 5 * 0.3;
+        var outerRadius = size / 8 * 0.7 * t + radius;
+        var context = this.context;
+
+        // draw outer circle
+        context.clearRect(0, 0, this.width, this.height);
+        context.beginPath();
+        context.arc(this.width / 2, this.height / 2, outerRadius, 0, Math.PI * 2);
+        context.fillStyle = 'rgba(200, 235, 255,' + (1 - t) + ')';
+        context.fill();
+
+        // draw inner circle
+        context.beginPath();
+        context.arc(this.width / 2, this.height / 2, radius, 0, Math.PI * 2);
+        context.fillStyle = 'rgba(0, 6, 189, 1)';
+        context.strokeStyle = 'white';
+        context.lineWidth = 2 + 4 * (1 - t);
+        context.fill();
+        context.stroke();
+
+        // update this image's data with data from the canvas
+        this.data = context.getImageData(0, 0, this.width, this.height).data;
+
+        // keep the map repainting
+        map.triggerRepaint();
+
+        // return `true` to let the map know that the image was updated
+        return true;
+    }
+};
+
 
 
 map.on('load', function () {
@@ -226,7 +277,7 @@ map.loadImage('haup.png', function(error, image) {
       map.addSource('hourly', {
         type: 'geojson',
         lineMetrics: true,
-        data: 'https://dl.dropboxusercontent.com/s/60twdtgl92g9rsli/demo3.geojson'
+        //data: 'https://dl.dropboxusercontent.com/s/60twdtgl92g9rsl/demo33.geojson'
         //data: 'demo3mini.geojson'
 
       });
@@ -340,6 +391,316 @@ map.loadImage('haup.png', function(error, image) {
     }, 'waterway-label');
 
 
+    //Car 1 ministop times 
+
+    map.addSource('car1totalministops', {
+        "type": "geojson",
+        "data": "car1ministopstotal.geojson"
+    });
+
+    map.addLayer({
+        "id": "Car1 Mini stops",
+        "type": "circle",
+        "source": "car1totalministops",
+        "minzoom": 2,
+        "paint": {
+            // Size circle radius by earthquake magnitude and zoom level
+            "circle-radius": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                7, [
+                    "interpolate",
+                    ["linear"],
+                    ["get", "duration"],
+                    1, 1,
+                    6, 4
+                ],
+                16, [
+                    "interpolate",
+                    ["linear"],
+                    ["get", "duration"],
+                    800, 2,
+                    40000, 10
+                ]
+            ],
+            // Color circle by earthquake magnitude
+            "circle-color": [
+                "interpolate",
+                ["linear"],
+                ["get", "duration"],
+                8000, "rgba(33,102,172,0)",
+                15000, "rgb(103,169,207)",
+                25000, "rgb(209,229,240)",
+                30000, "rgb(253,219,199)",
+                35000, "rgb(239,138,98)",
+                40000, "rgb(178,24,43)"
+            ],
+            "circle-stroke-color": "white",
+            "circle-stroke-width": 0.1,
+
+        }
+    }, 'waterway-label');
+
+    //Car 2 ministop times 
+
+    map.addSource('car2totalministops', {
+        "type": "geojson",
+        "data": "car2ministopstotal.geojson"
+    });
+
+    map.addLayer({
+        "id": "Car2 Mini stops",
+        "type": "circle",
+        "source": "car2totalministops",
+        "minzoom": 2,
+        "paint": {
+            // Size circle radius by earthquake magnitude and zoom level
+            "circle-radius": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                7, [
+                    "interpolate",
+                    ["linear"],
+                    ["get", "duration"],
+                    1, 1,
+                    6, 4
+                ],
+                16, [
+                    "interpolate",
+                    ["linear"],
+                    ["get", "duration"],
+                    800, 2,
+                    40000, 10
+                ]
+            ],
+            // Color circle by earthquake magnitude
+            "circle-color": [
+                "interpolate",
+                ["linear"],
+                ["get", "duration"],
+                8000, "rgba(33,102,172,0)",
+                15000, "rgb(103,169,207)",
+                25000, "rgb(209,229,240)",
+                30000, "rgb(253,219,199)",
+                35000, "rgb(239,138,98)",
+                40000, "rgb(178,24,43)"
+            ],
+            "circle-stroke-color": "white",
+            "circle-stroke-width": 0.1,
+
+        }
+    }, 'waterway-label');
+
+d3.json('car1latest.geojson', function(err, geojson) {
+      if (err) throw err;
+
+    map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
+
+    map.addSource('Car1', {
+          type: 'geojson',
+          lineMetrics: true,
+          data: geojson
+      });
+
+    map.addLayer({
+        "id": "Car1 LIVE Location",
+        "type": "symbol",
+        "source": "Car1",
+        "layout": {
+            "icon-image": "pulsing-dot"
+        }
+    });
+});
+
+map.on('click', 'Car2 LIVE Location', function (e) {
+new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+//.setHTML(e.features[0].properties.logtime)
+.setHTML('<h3> Car2 <h3>')
+.addTo(map);
+});
+ 
+// Change the cursor to a pointer when the mouse is over the states layer.
+map.on('mouseenter', 'states-layer', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+ 
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'states-layer', function () {
+map.getCanvas().style.cursor = '';
+});
+
+////
+
+map.on('click', 'Car1 LIVE Location', function (e) {
+new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML('<h3> Car1 <h3>')
+.addTo(map);
+});
+ 
+// Change the cursor to a pointer when the mouse is over the states layer.
+map.on('mouseenter', 'states-layer', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+ 
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'states-layer', function () {
+map.getCanvas().style.cursor = '';
+});
+
+
+
+d3.json('car2latest.geojson', function(err, geojson) {
+      if (err) throw err;
+
+    map.addImage('pulsing-dot2', pulsingDot, { pixelRatio: 2 });
+
+    map.addSource('Car2', {
+          type: 'geojson',
+          lineMetrics: true,
+          data: geojson
+      });
+
+    map.addLayer({
+        "id": "Car2 LIVE Location",
+        "type": "symbol",
+        "source": "Car2",
+        "layout": {
+            "icon-image": "pulsing-dot"
+        }
+    });
+});
+
+
+
+////////////////CAR1///////////////////
+d3.json('car1today.geojson', function(err, dataset) {
+      if (err) throw err;
+    
+      map.addSource('Day1', {
+          type: 'geojson',
+          lineMetrics: true,
+          data: dataset
+      });
+    
+
+    map.addLayer({
+        "id": "Car1 route",
+        "type": "line",
+        "source": "Day1",
+        "layout": {
+            "line-join": "round",
+            "line-cap": "butt"
+        },
+        "paint": {
+            "line-color": "#ffffff",
+            "line-width": 3
+        }
+    });
+  
+    var dashLength = 2;
+    var gapLength = 3;
+ 
+    // We divide the animation up into 40 steps to make careful use of the finite space in
+    // LineAtlas
+    var steps = 40;
+    // A # of steps proportional to the dashLength are devoted to manipulating the dash
+    var dashSteps = steps * dashLength / (gapLength + dashLength);
+    // A # of steps proportional to the gapLength are devoted to manipulating the gap
+    var gapSteps = steps - dashSteps;
+  
+    // The current step #
+    var step = 0;
+  
+    setInterval(function() {
+        step = step + 1;
+        if (step >= steps) step = 0;
+    
+        var t, a, b, c, d;
+        if (step < dashSteps) {
+          t = step / dashSteps;
+          a = (1 - t) * dashLength;
+          b = gapLength;
+          c = t * dashLength;
+          d = 0;
+        } else {
+          t = (step - dashSteps) / (gapSteps);
+          a = 0;
+          b = (1 - t) * gapLength;
+          c = dashLength;
+          d = t * gapLength;          
+        }
+        
+        map.setPaintProperty("Car1 route", "line-dasharray", [d, c, b, a]);
+    }, 25);
+});
+
+////////////////CAR2///////////////////
+d3.json('car2today.geojson', function(err, dataset2) {
+      if (err) throw err;
+    
+      map.addSource('Day2', {
+          type: 'geojson',
+          lineMetrics: true,
+          data: dataset2
+      });
+    
+
+    map.addLayer({
+        "id": "Car2 route",
+        "type": "line",
+        "source": "Day2",
+        "layout": {
+            "line-join": "round",
+            "line-cap": "butt"
+        },
+        "paint": {
+            "line-color": "#ffffff",
+            "line-width": 3
+        }
+    });
+  
+    var dashLength = 2;
+    var gapLength = 10;
+ 
+    // We divide the animation up into 40 steps to make careful use of the finite space in
+    // LineAtlas
+    var steps = 40;
+    // A # of steps proportional to the dashLength are devoted to manipulating the dash
+    var dashSteps = steps * dashLength / (gapLength + dashLength);
+    // A # of steps proportional to the gapLength are devoted to manipulating the gap
+    var gapSteps = steps - dashSteps;
+  
+    // The current step #
+    var step = 0;
+  
+    setInterval(function() {
+        step = step + 1;
+        if (step >= steps) step = 0;
+    
+        var t, a, b, c, d;
+        if (step < dashSteps) {
+          t = step / dashSteps;
+          a = (1 - t) * dashLength;
+          b = gapLength;
+          c = t * dashLength;
+          d = 0;
+        } else {
+          t = (step - dashSteps) / (gapSteps);
+          a = 0;
+          b = (1 - t) * gapLength;
+          c = dashLength;
+          d = t * gapLength;          
+        }
+        
+        map.setPaintProperty("Car2 route", "line-dasharray", [d, c, b, a]);
+    }, 25);
+});
+
+
      
       // update hour filter when the slider is dragged
       document.getElementById('slider').addEventListener('input', function (e) {
@@ -375,7 +736,7 @@ map.loadImage('haup.png', function(error, image) {
     });
 
 
-var toggleableLayerIds = [ 'HAUPcar stations', 'Mini stops','Heatmap'];
+var toggleableLayerIds = [ 'HAUPcar stations', 'Mini stops','Heatmap','Car1 Mini stops','Car2 Mini stops','Car1 route','Car2 route'];
 
 for (var i = 0; i < toggleableLayerIds.length; i++) {
     var id = toggleableLayerIds[i];
