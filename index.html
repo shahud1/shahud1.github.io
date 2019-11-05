@@ -308,6 +308,42 @@ var pulsingDot = {
     render: function() {
         var duration = 1000;
         var t = (performance.now() % duration) / duration;
+<<<<<<< HEAD
+=======
+
+        var radius = size / 5 * 0.3;
+        var outerRadius = size / 8 * 0.7 * t + radius;
+        var context = this.context;
+
+        // draw outer circle
+        context.clearRect(0, 0, this.width, this.height);
+        context.beginPath();
+        context.arc(this.width / 2, this.height / 2, outerRadius, 0, Math.PI * 2);
+        context.fillStyle = 'rgba(200, 235, 255,' + (1 - t) + ')';
+        context.fill();
+
+        // draw inner circle
+        context.beginPath();
+        context.arc(this.width / 2, this.height / 2, radius, 0, Math.PI * 2);
+        context.fillStyle = 'rgba(0, 6, 189, 1)';
+        context.strokeStyle = 'white';
+        context.lineWidth = 2 + 4 * (1 - t);
+        context.fill();
+        context.stroke();
+
+        // update this image's data with data from the canvas
+        this.data = context.getImageData(0, 0, this.width, this.height).data;
+
+        // keep the map repainting
+        map.triggerRepaint();
+
+        // return `true` to let the map know that the image was updated
+        return true;
+    }
+};
+
+
+>>>>>>> 85de8b02ef6dfd9965d5c7d6bcb0e712036b0857
 
         var radius = size / 5 * 0.3;
         var outerRadius = size / 8 * 0.7 * t + radius;
@@ -629,15 +665,24 @@ map.loadImage('haup.png', function(error, image) {
         }
     }, 'waterway-label');
 
+<<<<<<< HEAD
 //d3.json('car1latest.geojson', function(err, geojson) {
 //      if (err) throw err;
+=======
+d3.json('car1latest.geojson', function(err, geojson) {
+      if (err) throw err;
+>>>>>>> 85de8b02ef6dfd9965d5c7d6bcb0e712036b0857
 
     map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
 
     map.addSource('Car1', {
           type: 'geojson',
           lineMetrics: true,
+<<<<<<< HEAD
           data: car1url
+=======
+          data: geojson
+>>>>>>> 85de8b02ef6dfd9965d5c7d6bcb0e712036b0857
       });
 
     map.addLayer({
@@ -648,7 +693,11 @@ map.loadImage('haup.png', function(error, image) {
             "icon-image": "pulsing-dot"
         }
     });
+<<<<<<< HEAD
 //});
+=======
+});
+>>>>>>> 85de8b02ef6dfd9965d5c7d6bcb0e712036b0857
 
 map.on('click', 'Car2 LIVE Location', function (e) {
 new mapboxgl.Popup()
@@ -689,15 +738,24 @@ map.getCanvas().style.cursor = '';
 
 
 
+<<<<<<< HEAD
 // d3.json('car2latest.geojson', function(err, geojson) {
 //       if (err) throw err;
+=======
+d3.json('car2latest.geojson', function(err, geojson) {
+      if (err) throw err;
+>>>>>>> 85de8b02ef6dfd9965d5c7d6bcb0e712036b0857
 
     map.addImage('pulsing-dot2', pulsingDot, { pixelRatio: 2 });
 
     map.addSource('Car2', {
           type: 'geojson',
           lineMetrics: true,
+<<<<<<< HEAD
           data: car2url
+=======
+          data: geojson
+>>>>>>> 85de8b02ef6dfd9965d5c7d6bcb0e712036b0857
       });
 
     map.addLayer({
@@ -708,7 +766,11 @@ map.getCanvas().style.cursor = '';
             "icon-image": "pulsing-dot"
         }
     });
+<<<<<<< HEAD
 // });
+=======
+});
+>>>>>>> 85de8b02ef6dfd9965d5c7d6bcb0e712036b0857
 
 
 
@@ -837,9 +899,12 @@ d3.json('car2today.geojson', function(err, dataset2) {
 });
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 85de8b02ef6dfd9965d5c7d6bcb0e712036b0857
      
       // update hour filter when the slider is dragged
       document.getElementById('slider').addEventListener('input', function (e) {
@@ -875,8 +940,11 @@ d3.json('car2today.geojson', function(err, dataset2) {
     });
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 85de8b02ef6dfd9965d5c7d6bcb0e712036b0857
 var toggleableLayerIds = [ 'HAUPcar stations', 'Mini stops','Heatmap','Car1 Mini stops','Car2 Mini stops','Car1 route','Car2 route'];
 
 for (var i = 0; i < toggleableLayerIds.length; i++) {
