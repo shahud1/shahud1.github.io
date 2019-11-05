@@ -1,0 +1,20 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "": "0",
+        "enginestate": "STOP",
+        "logtime": "2019-11-05T18:13:38.825+07:00"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.60247,
+          14.07378
+        ]
+      }
+    }
+  ]
+}
