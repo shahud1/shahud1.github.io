@@ -6,13 +6,13 @@
       "properties": {
         "": "0",
         "enginestate": "STOP",
-        "logtime": "2019-11-06T12:00:56.331+07:00"
+        "logtime": "2019-11-06T12:35:56.958+07:00"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.60219,
-          14.07368
+          100.60201,
+          14.07364
         ]
       }
     }
