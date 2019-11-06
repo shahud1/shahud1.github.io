@@ -5,14 +5,14 @@
       "type": "Feature",
       "properties": {
         "": "0",
-        "enginestate": "STOP",
-        "logtime": "2019-11-06T11:45:00.549+07:00"
+        "enginestate": "START",
+        "logtime": "2019-11-06T15:45:07+07:00"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.60439,
-          14.06647
+          100.56936,
+          13.98541
         ]
       }
     }
